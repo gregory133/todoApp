@@ -1,0 +1,18 @@
+ion-content{
+  --background: black;
+  font-family: 'SignikaNegative';
+}
+
+.toolbar{
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  font-family: 'SignikaNegative';
+}
+
+.input{
+  padding: 10px;
+  height: 100%;
+  color: white;
+  font-family: 'SignikaNegative';
+}

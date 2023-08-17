@@ -2,8 +2,13 @@ import { IonButton, IonContent, IonFooter, IonHeader, IonIcon, IonPage, IonToolb
 import React from 'react'
 import { menuOutline, addOutline } from 'ionicons/icons';
 import './Main.css'
+import { useHistory } from 'react-router-dom';
+
 
 export default function Main() {
+
+  const history = useHistory();
+
   return (
     <IonPage>
       <IonHeader>
@@ -32,7 +37,7 @@ export default function Main() {
 
       </IonContent>
       <IonFooter>
-        <IonButton>
+        <IonButton onClick={()=>{history.push('/addNote')}}>
           <IonIcon className='footerIcon' icon={addOutline}/>
         </IonButton>
       </IonFooter>
