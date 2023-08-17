@@ -1,0 +1,42 @@
+ion-content{
+  --background: black;
+}
+
+ion-button{
+  --background: black;
+  --border-radius: 100%;
+  width: 50px;
+  height: 50px;
+
+}
+
+ion-toolbar{
+  --background: black;
+
+}
+
+.toolbar{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+ion-toolbar span{
+  color: white;
+  font-weight: 525;
+  font-size: 6vw;
+  font-family: 'SignikaNegative';
+}
+
+
+ion-footer{
+  background-color: black;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+ion-footer ion-button{
+
+  margin: 10px;
+  --background: #3A3A3A;
+}

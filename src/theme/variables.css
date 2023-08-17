@@ -234,3 +234,10 @@ http://ionicframework.com/docs/theming/ */
     --ion-card-background: #1e1e1e;
   }
 }
+
+@font-face {
+  font-family: 'SignikaNegative';
+  src: url('../fonts/SignikaNegative/SignikaNegative-VariableFont_wght.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
