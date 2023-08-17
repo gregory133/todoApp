@@ -1,5 +1,25 @@
 ion-content{
   --background: black;
+  font-family: 'SignikaNegative';
+}
+
+.content{
+  height: 100%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content h1{
+  margin: 0px;
+  color: #CCCCCC;
+}
+
+.content p{
+  margin-top: 10px;
+  color: #999999;
 }
 
 ion-button{
@@ -12,6 +32,7 @@ ion-button{
 
 ion-toolbar{
   --background: black;
+  font-family: 'SignikaNegative';
 
 }
 
@@ -24,10 +45,13 @@ ion-toolbar{
 ion-toolbar span{
   color: white;
   font-weight: 525;
-  font-size: 6vw;
-  font-family: 'SignikaNegative';
+  font-size: 20px;
+  
 }
 
+.footerIcon{
+  color: #569CD6;
+}
 
 ion-footer{
   background-color: black;

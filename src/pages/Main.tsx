@@ -15,18 +15,25 @@ export default function Main() {
             <span>
               All Notes
             </span>
-          </div>
-          
-          
+          </div>         
            
         </IonToolbar>
       </IonHeader>
       <IonContent>
+        <div className='content'>
+          <h1>
+            No notes
+          </h1>
+          <p>
+            Tap the Add button to create a note.
+          </p>
+          
+        </div>
 
       </IonContent>
       <IonFooter>
         <IonButton>
-          <IonIcon icon={addOutline}/>
+          <IonIcon className='footerIcon' icon={addOutline}/>
         </IonButton>
       </IonFooter>
     </IonPage>
