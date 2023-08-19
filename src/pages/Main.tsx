@@ -2,7 +2,7 @@ import { IonButton, IonContent, IonFooter, IonHeader, IonIcon, IonPage, IonToolb
 import React from 'react'
 import { menuOutline, addOutline } from 'ionicons/icons';
 import './Main.css'
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 
 export default function Main() {

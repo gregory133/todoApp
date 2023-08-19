@@ -3,6 +3,12 @@ ion-content{
   font-family: 'SignikaNegative';
 }
 
+.titleInput{
+  font-size: 25px;
+  color: white;
+  font-family: 'SignikaNegative';
+}
+
 .toolbar{
   background-color: black;
   width: 100%;
