@@ -1,13 +1,14 @@
 import { IonButton, IonContent, IonFooter, IonHeader, IonIcon, IonPage, IonToolbar } from '@ionic/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { menuOutline, addOutline } from 'ionicons/icons';
 import './Main.css'
 import { useHistory, useLocation } from 'react-router-dom';
-
+import SavedNotes from '../components/SavedNotes';
 
 export default function Main() {
 
   const history = useHistory();
+
 
   return (
     <IonPage>
@@ -26,12 +27,7 @@ export default function Main() {
       </IonHeader>
       <IonContent>
         <div className='content'>
-          <h1>
-            No notes
-          </h1>
-          <p>
-            Tap the Add button to create a note.
-          </p>
+          <SavedNotes/>
           
         </div>
 

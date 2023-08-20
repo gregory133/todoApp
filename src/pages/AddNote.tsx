@@ -1,14 +1,23 @@
 import { IonButton, IonContent, IonFooter, IonHeader, IonIcon, IonInput, IonPage, IonTextarea, IonToolbar } from '@ionic/react'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { chevronBackOutline,  } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import './AddNote.css'
 import Note from '../classes/Note';
+import { useDispatch, useSelector } from 'react-redux';
+import { StoreState } from '../redux/store';
+import { addNote } from '../redux/slices/notesSlice';
 
 
 export default function AddNote() {
 
   const history=useHistory()
+  const dispatch=useDispatch()
+  const notes=useSelector((state:StoreState)=>state.notes.notes)
+
+  useEffect(()=>{
+    // console.log(notes);
+  }, [notes])
 
   const contentInputRef=useRef<null|HTMLIonTextareaElement>(null)
   const titleInputRef=useRef<null|HTMLIonInputElement>(null)
@@ -17,7 +26,7 @@ export default function AddNote() {
     
     const createdNote=createNote()
     if (createdNote){
-      
+      dispatch(addNote(JSON.stringify({title:createdNote.title, content:createdNote.content})))
     }
     history.goBack()
   }
