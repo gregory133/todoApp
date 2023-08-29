@@ -1,35 +1,30 @@
 import React, { useEffect, useState } from 'react'
-import { StoreState, AppDispatch } from '../redux/store';
 import Note from '../classes/Note';
 import './SavedNotes.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { IonButton } from '@ionic/react';
 import { IonRippleEffect } from '@ionic/react';
 import { useHistory } from 'react-router';
-import { setCurrentNote, setCurrentNoteAsync } from '../redux/slices/notesSlice';
+import { useNotesStore } from '../stores/notesStore';
 
 export default function SavedNotes() {
 
-  const notes:Note[]=useSelector((state:StoreState)=>state.notes.notes)
-  const currentNote=useSelector((state:StoreState)=>state.notes.currentNote)
-  const [savedNotes, setSavedNotes]=useState<Note[]>(notes)
   const history=useHistory()
-  const dispatch=useDispatch<AppDispatch>()
+  const savedNotes=useNotesStore(state=>state.savedNotes)
+  const currentNote=useNotesStore(state=>state.currentNote)
+  const setCurrentNote=useNotesStore(state=>state.setCurrentNote)
 
-  useEffect(()=>{
-    setSavedNotes(notes)
-  }, [notes])
 
   function onClickSavedNote(savedNote:Note){
-    
-    dispatch(setCurrentNoteAsync(savedNote)) 
-    
+    setCurrentNote(savedNote)
   }
 
   useEffect(()=>{
     if (currentNote){
-      history.push('addNote')
+      console.log(currentNote);
+      history.push('/addNote')
     }
+
   }, [currentNote])
 
   return (

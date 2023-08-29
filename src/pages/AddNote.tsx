@@ -1,36 +1,35 @@
 import { IonButton, IonContent, IonFooter, IonHeader, IonIcon, IonInput, IonPage, IonTextarea, IonToolbar } from '@ionic/react'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { chevronBackOutline,  } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import './AddNote.css'
 import Note from '../classes/Note';
-import { useDispatch, useSelector } from 'react-redux';
-import { StoreState } from '../redux/store';
-import { addNote } from '../redux/slices/notesSlice';
+import { useNotesStore } from '../stores/notesStore';
 
 export default function AddNote() {
 
   const history=useHistory()
-  const dispatch=useDispatch()
-  const notes=useSelector((state:StoreState)=>state.notes.notes)
-  const currentNote=useSelector((state:StoreState)=>state.notes.currentNote)
+  const [isEditing, setIsEditing]=useState<boolean>(false)
 
-  useEffect(()=>{
-    console.log(currentNote);
-  }, [])
-  
-  useEffect(()=>{
-    // console.log(notes);
-  }, [notes])
+  const addNote=useNotesStore(state=>state.addNote)
+  const setCurrentNote=useNotesStore(state=>state.setCurrentNote)
+  const currentNote=useNotesStore(state=>state.currentNote)
 
   const contentInputRef=useRef<null|HTMLIonTextareaElement>(null)
   const titleInputRef=useRef<null|HTMLIonInputElement>(null)
 
+  useEffect(()=>{
+    if (currentNote){
+      setIsEditing(true)
+    }
+  }, [])
+
   function onClickBackButton(){
     
+    setCurrentNote(null)
     const createdNote=createNote()
-    if (createdNote){
-      dispatch(addNote(JSON.stringify({title:createdNote.title, content:createdNote.content})))
+    if (createdNote?.title && !isEditing){
+      addNote(createdNote)
     }
     history.goBack()
   }
