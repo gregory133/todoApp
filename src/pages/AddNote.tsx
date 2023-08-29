@@ -13,9 +13,10 @@ export default function AddNote() {
   const history=useHistory()
   const dispatch=useDispatch()
   const notes=useSelector((state:StoreState)=>state.notes.notes)
+  const currentNote=useSelector((state:StoreState)=>state.notes.currentNote)
 
   useEffect(()=>{
-
+    console.log(currentNote);
   }, [])
   
   useEffect(()=>{
@@ -63,7 +64,7 @@ export default function AddNote() {
             <IonButton onClick={onClickBackButton}>
               <IonIcon icon={chevronBackOutline}/>
             </IonButton>
-            <IonInput ref={titleInputRef}
+            <IonInput ref={titleInputRef} value={currentNote?.title}
              color='black' className='titleInput' placeholder='Title'/>
           </div>
         </IonToolbar>
@@ -71,7 +72,7 @@ export default function AddNote() {
         
       </IonHeader>
       <IonContent>
-        <IonTextarea ref={contentInputRef}
+        <IonTextarea ref={contentInputRef} value={currentNote?.content}
          color='black' className='input' placeholder='Add your notes here'/>
       </IonContent>
       

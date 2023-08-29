@@ -20,19 +20,17 @@ export default function SavedNotes() {
     setSavedNotes(notes)
   }, [notes])
 
-  useEffect(()=>{
-    console.log('finally', currentNote);
-  }, [currentNote])
-
   function onClickSavedNote(savedNote:Note){
     
-    dispatch(setCurrentNoteAsync(savedNote))
-    .then((f)=>{
-    console.log(f);
-    })
-  
+    dispatch(setCurrentNoteAsync(savedNote)) 
     
   }
+
+  useEffect(()=>{
+    if (currentNote){
+      history.push('addNote')
+    }
+  }, [currentNote])
 
   return (
 
