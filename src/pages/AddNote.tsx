@@ -8,13 +8,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StoreState } from '../redux/store';
 import { addNote } from '../redux/slices/notesSlice';
 
-
 export default function AddNote() {
 
   const history=useHistory()
   const dispatch=useDispatch()
   const notes=useSelector((state:StoreState)=>state.notes.notes)
 
+  useEffect(()=>{
+
+  }, [])
+  
   useEffect(()=>{
     // console.log(notes);
   }, [notes])

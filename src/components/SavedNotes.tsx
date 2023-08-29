@@ -1,18 +1,38 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
-import { StoreState } from '../redux/store';
+import { StoreState, AppDispatch } from '../redux/store';
 import Note from '../classes/Note';
 import './SavedNotes.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { IonButton } from '@ionic/react';
+import { IonRippleEffect } from '@ionic/react';
+import { useHistory } from 'react-router';
+import { setCurrentNote, setCurrentNoteAsync } from '../redux/slices/notesSlice';
 
 export default function SavedNotes() {
 
   const notes:Note[]=useSelector((state:StoreState)=>state.notes.notes)
+  const currentNote=useSelector((state:StoreState)=>state.notes.currentNote)
   const [savedNotes, setSavedNotes]=useState<Note[]>(notes)
+  const history=useHistory()
+  const dispatch=useDispatch<AppDispatch>()
 
   useEffect(()=>{
     setSavedNotes(notes)
   }, [notes])
 
+  useEffect(()=>{
+    console.log('finally', currentNote);
+  }, [currentNote])
+
+  function onClickSavedNote(savedNote:Note){
+    
+    dispatch(setCurrentNoteAsync(savedNote))
+    .then((f)=>{
+    console.log(f);
+    })
+  
+    
+  }
 
   return (
 
@@ -28,13 +48,16 @@ export default function SavedNotes() {
             Tap the Add button to create a note.
           </p>
         </div> 
+        
       )
       : (
         <div className='notesContainer'>
           {
             savedNotes.map((savedNote, index)=>
             <div key={index} className='savedNote'>
-              <div>
+              
+              <div className=' ion-activatable' onClick={()=>onClickSavedNote(savedNote)}>
+                <IonRippleEffect/>
                 {savedNote.content}
               </div>
               <span>
