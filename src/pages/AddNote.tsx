@@ -25,13 +25,23 @@ export default function AddNote() {
   }, [])
 
   function onClickBackButton(){
-    
     setCurrentNote(null)
     const createdNote=createNote()
-    if (createdNote?.title && !isEditing){
-      addNote(createdNote)
+    if (!isEditing){
+      if (createdNote?.title){
+        addNote(createdNote)
+      }
+      
+
     }
+    else{
+      if (createdNote?.title){
+        console.log(createdNote);
+      }
+    }
+    
     history.goBack()
+    
   }
 
   function createNote():Note|null{

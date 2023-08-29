@@ -21,7 +21,7 @@ export default function SavedNotes() {
 
   useEffect(()=>{
     if (currentNote){
-      console.log(currentNote);
+      // console.log(currentNote);
       history.push('/addNote')
     }
 
