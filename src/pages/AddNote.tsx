@@ -11,9 +11,11 @@ export default function AddNote() {
   const history=useHistory()
   const [isEditing, setIsEditing]=useState<boolean>(false)
 
+  const savedNotes=useNotesStore(state=>state.savedNotes)
   const addNote=useNotesStore(state=>state.addNote)
   const setCurrentNote=useNotesStore(state=>state.setCurrentNote)
   const currentNote=useNotesStore(state=>state.currentNote)
+  const editNote=useNotesStore(state=>state.editNote)
 
   const contentInputRef=useRef<null|HTMLIonTextareaElement>(null)
   const titleInputRef=useRef<null|HTMLIonInputElement>(null)
@@ -26,17 +28,19 @@ export default function AddNote() {
 
   function onClickBackButton(){
     setCurrentNote(null)
-    const createdNote=createNote()
+    
+
     if (!isEditing){
+      const createdNote=createNote()
       if (createdNote?.title){
         addNote(createdNote)
       }
       
-
     }
     else{
+      const createdNote=createNote(currentNote?.dateCreated)
       if (createdNote?.title){
-        console.log(createdNote);
+        editNote(createdNote.dateCreated, createdNote)
       }
     }
     
@@ -44,14 +48,23 @@ export default function AddNote() {
     
   }
 
-  function createNote():Note|null{
+  useEffect(()=>{
+    // console.log(savedNotes.values()); 
+  }, [savedNotes])
+
+  function createNote(dateCreatedOverride?:number):Note|null{
     if (titleInputRef.current && contentInputRef.current ){
       
       const title:string=titleInputRef.current.value?.toString()!
       const content:string=contentInputRef.current.value?.toString()!
   
       if (title!=''){
-        return new Note(title, content) 
+        const createdNote=new Note(title, content) 
+        if (dateCreatedOverride){
+          // console.log('here');
+          createdNote.dateCreated=dateCreatedOverride
+        }
+        return createdNote
       }
       else{
         return null

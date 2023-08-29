@@ -1,23 +1,48 @@
 import { create } from 'zustand'
 import Note from '../classes/Note'
+import * as Collections from 'typescript-collections';
 
 interface NotesState{
-  savedNotes:Note[],
+  savedNotes:Collections.Dictionary<number, Note>,
   currentNote:Note|null,
-  setCurrentNote:(newCurrentNote:Note|null)=>void,
-  addNote:(newNote:Note)=>void
+  setCurrentNote:(newCurrentNote:Note|null
+    )=>void,
+  addNote:(newNote:Note)=>void,
+  editNote: (dateCreated:number, newNote:Note)=>void
 }
 
 export const useNotesStore=create<NotesState>()(set=>(
   {
-    savedNotes:[],
+    savedNotes:new Collections.Dictionary(),
     currentNote:null,
     setCurrentNote:(newCurrentNote:Note|null)=>set(state=>({
       currentNote:newCurrentNote
     })),
-    addNote:(newNote:Note)=>set(state=>({
-      savedNotes:[...state.savedNotes, newNote]
-    }))
+    addNote:(newNote:Note)=>set(state=>{
+      const newDict=new Collections.Dictionary<number, Note>()
+      state.savedNotes.forEach((key:number, value:Note)=>{
+        newDict.setValue(key, value)
+      })
+      newDict.setValue(newNote.dateCreated, newNote)
+      console.log(newNote.dateCreated);
+      return {savedNotes: newDict}
+    }),
+    editNote:(dateCreated:number, newNote:Note)=>set(state=>{
+
+      console.log('date created', dateCreated);
+      const newDict=new Collections.Dictionary<number, Note>()
+      state.savedNotes.forEach((key:number, value:Note)=>{
+        newDict.setValue(key, value)
+      })
+
+      newDict.remove(dateCreated)
+      newDict.setValue(dateCreated, newNote)
+
+      console.log(newDict);
+
+      return {savedNotes: newDict}
+
+    })
 
   }
 ))

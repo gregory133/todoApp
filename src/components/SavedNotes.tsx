@@ -31,7 +31,7 @@ export default function SavedNotes() {
 
     <>
     {
-      savedNotes.length==0 
+      savedNotes.size()==0 
       ? (
         <div className='empty'>
           <h1>
@@ -46,15 +46,15 @@ export default function SavedNotes() {
       : (
         <div className='notesContainer'>
           {
-            savedNotes.map((savedNote, index)=>
+            savedNotes.keys().map((key, index)=>
             <div key={index} className='savedNote'>
               
-              <div className=' ion-activatable' onClick={()=>onClickSavedNote(savedNote)}>
+              <div className=' ion-activatable' onClick={()=>onClickSavedNote(savedNotes.getValue(key)!)}>
                 <IonRippleEffect/>
-                {savedNote.content}
+                {savedNotes.getValue(key)!.content}
               </div>
               <span>
-                {savedNote.title}
+                {savedNotes.getValue(key)!.title}
               </span>
             </div>
             )
