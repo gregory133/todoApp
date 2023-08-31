@@ -46,10 +46,11 @@ export default function SavedNotes() {
       : (
         <div className='notesContainer'>
           {
-            savedNotes.keys().map((key, index)=>
+            savedNotes.keys().sort((a, b)=>a-b).map((key, index)=>
             <div key={index} className='savedNote'>
               
-              <div className=' ion-activatable' onClick={()=>onClickSavedNote(savedNotes.getValue(key)!)}>
+              <div className=' ion-activatable' 
+              onClick={()=>onClickSavedNote(savedNotes.getValue(key)!)}>
                 <IonRippleEffect/>
                 {savedNotes.getValue(key)!.content}
               </div>
