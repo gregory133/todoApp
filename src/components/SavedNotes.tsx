@@ -6,6 +6,7 @@ import { IonButton } from '@ionic/react';
 import { IonRippleEffect } from '@ionic/react';
 import { useHistory } from 'react-router';
 import { useNotesStore } from '../stores/notesStore';
+import NoteCard from './NoteCard';
 
 export default function SavedNotes() {
 
@@ -47,17 +48,9 @@ export default function SavedNotes() {
         <div className='notesContainer'>
           {
             savedNotes.keys().sort((a, b)=>a-b).map((key, index)=>
-            <div key={index} className='savedNote'>
-              
-              <div className=' ion-activatable' 
-              onClick={()=>onClickSavedNote(savedNotes.getValue(key)!)}>
-                <IonRippleEffect/>
-                {savedNotes.getValue(key)!.content}
-              </div>
-              <span>
-                {savedNotes.getValue(key)!.title}
-              </span>
-            </div>
+              <NoteCard key={index} dateCreated={key}
+              onClickSavedNote={onClickSavedNote}
+              savedNotes={savedNotes}/>
             )
           }
         </div>

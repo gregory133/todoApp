@@ -24,7 +24,7 @@ export const useNotesStore=create<NotesState>()(set=>(
         newDict.setValue(key, value)
       })
       newDict.setValue(newNote.dateCreated, newNote)
-      console.log(newNote.dateCreated);
+      // console.log(newNote.dateCreated);
       return {savedNotes: newDict}
     }),
     editNote:(dateCreated:number, newNote:Note)=>set(state=>{
