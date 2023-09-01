@@ -50,7 +50,5 @@ export const useNotesStore=create<NotesState>()(set=>(
 
       return {savedNotes: newDict}
     })
-
-
   }
 ))

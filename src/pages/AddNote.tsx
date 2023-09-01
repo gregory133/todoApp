@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import './AddNote.css'
 import Note from '../classes/Note';
 import { useNotesStore } from '../stores/notesStore';
+import { sqlite, existingConnection } from '../App';
 
 export default function AddNote() {
 
@@ -12,7 +13,7 @@ export default function AddNote() {
   const [isEditing, setIsEditing]=useState<boolean>(false)
 
   const savedNotes=useNotesStore(state=>state.savedNotes)
-  const addNote=useNotesStore(state=>state.addNote)
+  const addNoteToStore=useNotesStore(state=>state.addNote)
   const setCurrentNote=useNotesStore(state=>state.setCurrentNote)
   const currentNote=useNotesStore(state=>state.currentNote)
   const editNote=useNotesStore(state=>state.editNote)
@@ -20,11 +21,26 @@ export default function AddNote() {
   const contentInputRef=useRef<null|HTMLIonTextareaElement>(null)
   const titleInputRef=useRef<null|HTMLIonInputElement>(null)
 
+  
+
+
   useEffect(()=>{
     if (currentNote){
       setIsEditing(true)
     }
   }, [])
+
+  async function addNote(note:Note){
+    addNoteToStore(note)
+    const platform = (await sqlite.getPlatform()).platform;
+    const db = await sqlite.createConnection(
+      "testNew", false, "no-encryption", 1);
+    await db.open();
+    let ret: any = await db.execute(`
+      CREATE TABLE IF NOT EXIST notes (
+        dateC
+      )`);
+  }
 
   function onClickBackButton(){
     setCurrentNote(null)
