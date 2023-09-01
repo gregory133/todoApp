@@ -84,7 +84,8 @@ export default function AddNote() {
         <IonToolbar>
           <div className='toolbar'>
             <IonButton onClick={onClickBackButton}>
-              <IonIcon icon={chevronBackOutline}/>
+              <IonIcon className='backIcon'
+               icon={chevronBackOutline}/>
             </IonButton>
             <IonInput ref={titleInputRef} value={currentNote?.title}
              color='black' className='titleInput' placeholder='Title'/>

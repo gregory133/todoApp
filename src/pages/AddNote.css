@@ -3,6 +3,10 @@ ion-content{
   font-family: 'SignikaNegative';
 }
 
+.backIcon{
+  color: white;
+}
+
 .titleInput{
   font-size: 25px;
   color: white;
