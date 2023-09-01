@@ -50,7 +50,7 @@ export default function SavedNotes() {
   return (
 
     <>
-    {
+    {//TODO: fix android touch bug
       savedNotes.size()==0 
       ? (
         <div className='empty'>
