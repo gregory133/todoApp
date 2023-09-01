@@ -14,6 +14,7 @@ export default function SavedNotes() {
   const savedNotes=useNotesStore(state=>state.savedNotes)
   const currentNote=useNotesStore(state=>state.currentNote)
   const setCurrentNote=useNotesStore(state=>state.setCurrentNote)
+  const deleteNote=useNotesStore(state=>state.deleteNote)
 
   const longPressedDateCreatedRef=useRef<number>(0)
   const [confirmDeleteModalOpen, setConfirmDeleteModalOpen]=useState<boolean>(false)
@@ -24,13 +25,18 @@ export default function SavedNotes() {
   }
 
   function onLongPressedNote(dateCreated:number){
+    console.log('long pressed', dateCreated);
     setConfirmDeleteModalOpen(true)
     longPressedDateCreatedRef.current=dateCreated
   }
 
   function deleteLongPressedNote(){
-    const dateCreatedToDelete=longPressedDateCreatedRef.current
     
+    const dateCreatedToDelete=longPressedDateCreatedRef.current
+    console.log('trying to delete', dateCreatedToDelete);
+    deleteNote(dateCreatedToDelete)
+    setConfirmDeleteModalOpen(false)
+
   }
 
   useEffect(()=>{

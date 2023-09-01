@@ -8,7 +8,8 @@ interface NotesState{
   setCurrentNote:(newCurrentNote:Note|null
     )=>void,
   addNote:(newNote:Note)=>void,
-  editNote: (dateCreated:number, newNote:Note)=>void
+  editNote: (dateCreated:number, newNote:Note)=>void,
+  deleteNote: (dateCreated:number)=>void
 }
 
 export const useNotesStore=create<NotesState>()(set=>(
@@ -28,8 +29,6 @@ export const useNotesStore=create<NotesState>()(set=>(
       return {savedNotes: newDict}
     }),
     editNote:(dateCreated:number, newNote:Note)=>set(state=>{
-
-      console.log('date created', dateCreated);
       const newDict=new Collections.Dictionary<number, Note>()
       state.savedNotes.forEach((key:number, value:Note)=>{
         newDict.setValue(key, value)
@@ -38,11 +37,20 @@ export const useNotesStore=create<NotesState>()(set=>(
       newDict.remove(dateCreated)
       newDict.setValue(dateCreated, newNote)
 
-      console.log(newDict);
-
       return {savedNotes: newDict}
 
+    }),
+    deleteNote:(dateCreated:number)=>set(state=>{
+      const newDict=new Collections.Dictionary<number, Note>()
+      state.savedNotes.forEach((key:number, value:Note)=>{
+        newDict.setValue(key, value)
+      })
+
+      newDict.remove(dateCreated)
+
+      return {savedNotes: newDict}
     })
+
 
   }
 ))
