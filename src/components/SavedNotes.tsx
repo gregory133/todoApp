@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Note from '../classes/Note';
 import './SavedNotes.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { IonButton } from '@ionic/react';
+import { IonButton, IonModal } from '@ionic/react';
 import { IonRippleEffect } from '@ionic/react';
 import { useHistory } from 'react-router';
 import { useNotesStore } from '../stores/notesStore';
@@ -15,9 +15,22 @@ export default function SavedNotes() {
   const currentNote=useNotesStore(state=>state.currentNote)
   const setCurrentNote=useNotesStore(state=>state.setCurrentNote)
 
+  const longPressedDateCreatedRef=useRef<number>(0)
+  const [confirmDeleteModalOpen, setConfirmDeleteModalOpen]=useState<boolean>(false)
+
 
   function onClickSavedNote(savedNote:Note){
     setCurrentNote(savedNote)
+  }
+
+  function onLongPressedNote(dateCreated:number){
+    setConfirmDeleteModalOpen(true)
+    longPressedDateCreatedRef.current=dateCreated
+  }
+
+  function deleteLongPressedNote(){
+    const dateCreatedToDelete=longPressedDateCreatedRef.current
+    
   }
 
   useEffect(()=>{
@@ -49,13 +62,23 @@ export default function SavedNotes() {
           {
             savedNotes.keys().sort((a, b)=>a-b).map((key, index)=>
               <NoteCard key={index} dateCreated={key}
-              onClickSavedNote={onClickSavedNote}
+              onClickSavedNote={onClickSavedNote} onLongPressedNote={onLongPressedNote}
               savedNotes={savedNotes}/>
             )
           }
         </div>
       )
     }  
+    <IonModal onDidDismiss={()=>{setConfirmDeleteModalOpen(false)}} isOpen={confirmDeleteModalOpen}>
+      <div className='deleteModalContent'>
+        <span>Delete the note?</span>    
+        <div>
+          <span onClick={()=>{setConfirmDeleteModalOpen(false)}}>Cancel</span>
+          <div></div>
+          <span onClick={deleteLongPressedNote} className='red'>Delete</span>
+        </div>
+      </div>
+    </IonModal>
     </>
     
   )

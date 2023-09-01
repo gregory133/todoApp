@@ -50,3 +50,49 @@
   justify-content: center;
   align-items: center;
 }
+
+ion-modal{
+ 
+  bottom: 0;
+  --min-width: 250px;
+  --height: fit-content;
+  /* --min-height: 125px; */
+  --border-radius: 6px;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+  --background: #252525;
+  align-items: end;
+  padding: 20px;
+  
+}
+
+.deleteModalContent{
+  /* margin: 10px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  color: white;
+  font-size: 25px;
+  font-family: 'SignikaNegative';
+}
+
+.deleteModalContent span{
+  margin: 10px 40px;
+}
+
+.deleteModalContent > div{
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.deleteModalContent > div > div{
+  width: 1px;
+  /* margin: 0px 20px; */
+  height: 25px;
+  background-color: aliceblue;
+}
+
+.red{
+  color: #F46A4D;
+}
