@@ -19,7 +19,7 @@ export default function Main() {
               <IonIcon icon={menuOutline}/>
             </IonButton>
             <span>
-              All Notess
+              All Notes
             </span>
           </div>         
            

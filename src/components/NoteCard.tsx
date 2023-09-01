@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Note from '../classes/Note'
 import { Dictionary } from 'typescript-collections'
 import { IonRippleEffect } from '@ionic/react'
-import Hammer from 'hammerjs';
+import { useGesture } from '@use-gesture/react'
 
 interface Props{
   dateCreated:number,
@@ -13,17 +13,33 @@ interface Props{
 
 export default function NoteCard(props:Props) {
 
+  const [isPressed, setIsPressed]=useState<boolean>(false)
+  const isPressedRef=useRef<boolean>(false)
   const elementRef=useRef(null)
 
-  if (elementRef.current){
-    let hammer=new Hammer(elementRef.current)
-    hammer.on('press', ev=>{
-      setTimeout(()=>{props.onLongPressedNote(props.dateCreated)}, 500) 
-    })
-  }
+  const bind=useGesture({
+    onTouchStart:(state)=>{
+      isPressedRef.current=true
+      setIsPressed(true)
+    },
+    onTouchEnd:(state)=>{
+      isPressedRef.current=false
+      setIsPressed(false)
+    }
+  })
+
+  useEffect(()=>{
+    if (isPressed){
+      setTimeout(()=>{
+        if (isPressedRef.current){
+          props.onLongPressedNote(props.dateCreated)
+        }
+      }, 500)
+    }
+  }, [isPressed])
 
   return (
-    <div ref={elementRef} className='savedNote'>         
+    <div {...bind()} ref={elementRef} className='savedNote'>         
       <div className=' ion-activatable' 
       onClick={()=>props.onClickSavedNote(props.savedNotes.getValue(props.dateCreated)!)}>
         <IonRippleEffect/>
