@@ -15,14 +15,12 @@ export default function NoteCard(props:Props) {
 
   const elementRef=useRef(null)
 
-  useEffect(()=>{
-    if (elementRef.current){
-      let hammer=new Hammer(elementRef.current)
-      hammer.on('press', ev=>{
-        setTimeout(()=>{props.onLongPressedNote(props.dateCreated)}, 500) 
-      })
-    }
-  }, [elementRef.current])
+  if (elementRef.current){
+    let hammer=new Hammer(elementRef.current)
+    hammer.on('press', ev=>{
+      setTimeout(()=>{props.onLongPressedNote(props.dateCreated)}, 500) 
+    })
+  }
 
   return (
     <div ref={elementRef} className='savedNote'>         

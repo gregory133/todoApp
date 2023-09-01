@@ -25,7 +25,7 @@ export default function SavedNotes() {
   }
 
   function onLongPressedNote(dateCreated:number){
-    console.log('long pressed', dateCreated);
+    // console.log('long pressed', dateCreated);
     setConfirmDeleteModalOpen(true)
     longPressedDateCreatedRef.current=dateCreated
   }
@@ -33,7 +33,7 @@ export default function SavedNotes() {
   function deleteLongPressedNote(){
     
     const dateCreatedToDelete=longPressedDateCreatedRef.current
-    console.log('trying to delete', dateCreatedToDelete);
+    // console.log('trying to delete', dateCreatedToDelete);
     deleteNote(dateCreatedToDelete)
     setConfirmDeleteModalOpen(false)
 
