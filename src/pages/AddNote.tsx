@@ -21,9 +21,6 @@ export default function AddNote() {
   const contentInputRef=useRef<null|HTMLIonTextareaElement>(null)
   const titleInputRef=useRef<null|HTMLIonInputElement>(null)
 
-  
-
-
   useEffect(()=>{
     if (currentNote){
       setIsEditing(true)
@@ -37,9 +34,10 @@ export default function AddNote() {
       "testNew", false, "no-encryption", 1);
     await db.open();
     let ret: any = await db.execute(`
-      CREATE TABLE IF NOT EXIST notes (
-        dateC
+      CREATE TABLE Notes (
+        dateCreated INTEGER PRIMARY KEY NOT NULL
       )`);
+    console.log(ret);
   }
 
   function onClickBackButton(){
