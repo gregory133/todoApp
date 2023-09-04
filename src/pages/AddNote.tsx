@@ -5,8 +5,8 @@ import { useHistory } from 'react-router-dom';
 import './AddNote.css'
 import Note from '../classes/Note';
 import { useNotesStore } from '../stores/notesStore';
-import { sqlite, existingConnection } from '../App';
-
+import {clearTable, createNotesTableIfNotExist, addNoteToDB,
+getAllNotes, test} from '../database/db'
 export default function AddNote() {
 
   const history=useHistory()
@@ -27,17 +27,35 @@ export default function AddNote() {
     }
   }, [])
 
+  useEffect(()=>{
+    // async function effect(){
+    //   try{
+    //     await createNotesTableIfNotExist()
+    //     await addNoteToDB(new Note('hello', 'world'))
+    //     const result=await getAllNotes()
+    //     console.log(result.rows.item(0))
+    //   }
+    //   catch (err){
+    //     console.log('error', JSON.stringify(err));
+    //   }
+      
+    // }
+    // effect()
+    test()
+  }, [])
+
   async function addNote(note:Note){
     addNoteToStore(note)
-    const platform = (await sqlite.getPlatform()).platform;
-    const db = await sqlite.createConnection(
-      "testNew", false, "no-encryption", 1);
-    await db.open();
-    let ret: any = await db.execute(`
-      CREATE TABLE Notes (
-        dateCreated INTEGER PRIMARY KEY NOT NULL
-      )`);
-    console.log(ret);
+    // const platform = (await sqlite.getPlatform()).platform;
+    // console.log('platform', platform);
+    // const db = await sqlite.createConnection(
+    //   "testNew", false, "no-encryption", 1);
+    // await db.open();
+    // let ret: any = await db.execute(`
+    //   CREATE TABLE Notes (
+    //     dateCreated INTEGER PRIMARY KEY NOT NULL
+    //   )`);
+    // console.log(ret);
   }
 
   function onClickBackButton(){

@@ -1,7 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -22,33 +22,11 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import AllNotes from './pages/AllNotes';
 import AddNote from './pages/AddNote';
-
-import { useSQLite } from 'react-sqlite-hook';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/';
 
 setupIonicReact();
-export let sqlite:any;
-export let existingConnection:any
 
-function App(){
-
-  const [connectionExists, setConnectionExists] = useState(false);
-  existingConnection = {existConn: connectionExists, setExistConn: 
-    setConnectionExists};
-  const {echo, getPlatform, createConnection, closeConnection,
-    retrieveConnection, retrieveAllConnections, closeAllConnections,
-    addUpgradeStatement, importFromJson, isJsonValid, copyFromAssets,
-    isAvailable} = useSQLite();
-  sqlite = {echo: echo, getPlatform: getPlatform,
-    createConnection: createConnection,
-    closeConnection: closeConnection,
-    retrieveConnection: retrieveConnection,
-    retrieveAllConnections: retrieveAllConnections,
-    closeAllConnections: closeAllConnections,
-    addUpgradeStatement: addUpgradeStatement,
-    importFromJson: importFromJson,
-    isJsonValid: isJsonValid,
-    copyFromAssets: copyFromAssets,
-    isAvailable:isAvailable};
+function App(){ 
 
   return (
     <IonApp>
