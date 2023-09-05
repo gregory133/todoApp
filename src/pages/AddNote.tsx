@@ -35,8 +35,8 @@ export default function AddNote() {
     //     const result=await getAllNotes()
     //     console.log(result.rows.item(0))
     //   }
-    //   catch (err){
-    //     console.log('error', JSON.stringify(err));
+    //   catch (err:any){
+    //     console.log('error', err.message);
     //   }
       
     // }

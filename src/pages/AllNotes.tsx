@@ -1,13 +1,17 @@
 import { IonButton, IonContent, IonFooter, IonHeader, IonIcon, IonPage, IonToolbar } from '@ionic/react'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { menuOutline, addOutline } from 'ionicons/icons';
 import './AllNotes.css'
 import { useHistory, useLocation } from 'react-router-dom';
 import SavedNotes from '../components/SavedNotes';
+import {database} from '../App'
+import { SQLiteObject } from '@ionic-native/sqlite';
+import {useDbStore} from '../stores/dbStore'
 
 
-export default function Main() {
+export default function Main(){
 
+  const db=useDbStore(state=>state.db)
   const history = useHistory();
 
   return (

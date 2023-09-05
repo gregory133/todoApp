@@ -1,8 +1,7 @@
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/';
 import Note from '../classes/Note';
 
-async function executeSql(sql:string){
-  const db=await getDB()
+async function executeSql(sql:string, db:SQLiteObject){
   const queryResult = await db.executeSql(sql, [])
   return queryResult
 }
@@ -10,63 +9,50 @@ async function executeSql(sql:string){
 export function test() {
   console.log('testing');
   SQLite.create({
-    name: 'NotesDB',
+    name: 'TodoDB',
     location: 'default'
-  }).then((db:SQLiteObject)=>{
-    console.log('then');
-    db.executeSql(`
-    create table Notes if not exists (
+  }).then(async (db:SQLiteObject)=>{
+    
+    await db.executeSql(`create table if not exists Notes(
       dateCreated integer,
       title text,
       content text
     );`, [])
-    .then(creation=>{
-      console.log('created', creation);
-    })
-    // console.log('created', create);
-    // const insert= await db.executeSql(`insert into Notes values (1, 'hello', 'world');`, [])
-    // console.log('inserted', insert); 
-    // const result = await db.executeSql(`select * from Notes;`, [])
-    // console.log('result', JSON.stringify(result));
+    
+    await db.executeSql(`delete from Notes`, [])
+    await db.executeSql(`insert into Notes values (1, 'hello', 'world');`, [])
+    const result = await db.executeSql(`select * from Notes;`, [])
+    for (let i=0; i<result.rows.length; i++){
+      console.log(JSON.stringify(result.rows.item(i)))
+    }
+    
   })
 }
 
-function getDB():Promise<SQLiteObject>{
-  return new Promise((res, rej)=>{
-    SQLite.create({
-      name: 'testDB',
-      location: 'default'
-    }).then((db:SQLiteObject)=>{
-      res(db)
-    })
-  })
- 
+export async function clearTable(db:SQLiteObject, tableName:string){
+  executeSql(`delete from ${tableName};`, db)
 }
 
-export async function clearTable(tableName:string){
-  executeSql(`delete from ${tableName};`)
-}
-
-export async function createNotesTableIfNotExist(){
+export async function createNotesTableIfNotExist(db:SQLiteObject){
   executeSql(`
-  create table Notes (
+  create table if not exists Notes (
     dateCreated integer,
     title text,
     content text
-  );`)
+  );`, db)
 }
 
-export async function addNoteToDB(note:Note) {
+export async function addNoteToDB(note:Note, db:SQLiteObject,) {
   executeSql(`insert into Notes values (${note.dateCreated}, '${note.title}', 
-  '${note.content}');`)
+  '${note.content}');`, db)
 }
 
-export async function getAllNotes(){
-  const queryResult = executeSql(`select * from Notes;`)
+export async function getAllNotes(db:SQLiteObject){
+  const queryResult = executeSql(`select * from Notes;`, db)
   return queryResult
 
 }
 
-export async function getNoteByDateCreated(dateCreated: number) {
+export async function getNoteByDateCreated(db:SQLiteObject, dateCreated: number) {
   
 }

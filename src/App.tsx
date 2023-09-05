@@ -22,18 +22,33 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import AllNotes from './pages/AllNotes';
 import AddNote from './pages/AddNote';
+
+import {useDbStore} from './stores/dbStore'
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/';
 
 setupIonicReact();
+export let database:SQLiteObject;
 
 function App(){ 
+
+  // const db=useDbStore(state=>state.db)
+  const setDb=useDbStore(state=>state.setDb)
+
+  useEffect(()=>{
+    SQLite.create({
+      name: 'TodoDB',
+      location: 'default'
+    }).then(async (db:SQLiteObject)=>{
+      setDb(db)
+    })
+  }, [])
 
   return (
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet>
           <Route exact path="/main">
-            <AllNotes />
+            <AllNotes/>
           </Route>
           <Route exact path="/addNote">
             <AddNote />
