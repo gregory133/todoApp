@@ -7,6 +7,9 @@ import { IonRippleEffect } from '@ionic/react';
 import { useHistory } from 'react-router';
 import { useNotesStore } from '../stores/notesStore';
 import NoteCard from './NoteCard';
+import {createNotesTableIfNotExist, deleteNoteFromDB, addNoteToDB, getAllNotes
+} from '../database/db'
+import { useDbStore } from '../stores/dbStore';
 
 export default function SavedNotes() {
 
@@ -15,10 +18,26 @@ export default function SavedNotes() {
   const currentNote=useNotesStore(state=>state.currentNote)
   const setCurrentNote=useNotesStore(state=>state.setCurrentNote)
   const deleteNote=useNotesStore(state=>state.deleteNote)
+  const addNote=useNotesStore(state=>state.addNote)
 
   const longPressedDateCreatedRef=useRef<number>(0)
   const [confirmDeleteModalOpen, setConfirmDeleteModalOpen]=useState<boolean>(false)
+  const db=useDbStore(state=>state.db)
 
+  useEffect(()=>{
+    async function dbRoutine(){
+      // console.log('db', JSON.stringify(db));
+      await createNotesTableIfNotExist(db!)
+      let storedNotes=await getAllNotes(db!)
+      storedNotes.forEach((storedNote:Note)=>{
+        addNote(storedNote)
+      }) 
+    }
+    if (db){
+      dbRoutine()
+    }
+   
+  }, [db])
 
   function onClickSavedNote(savedNote:Note){
     setCurrentNote(savedNote)
@@ -35,6 +54,9 @@ export default function SavedNotes() {
     const dateCreatedToDelete=longPressedDateCreatedRef.current
     // console.log('trying to delete', dateCreatedToDelete);
     deleteNote(dateCreatedToDelete)
+    if (db){
+      deleteNoteFromDB(dateCreatedToDelete, db)
+    }
     setConfirmDeleteModalOpen(false)
 
   }
@@ -50,7 +72,7 @@ export default function SavedNotes() {
   return (
 
     <>
-    {//TODO: fix android touch bug
+    {
       savedNotes.size()==0 
       ? (
         <div className='empty'>

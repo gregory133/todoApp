@@ -6,7 +6,7 @@ import './AddNote.css'
 import Note from '../classes/Note';
 import { useNotesStore } from '../stores/notesStore';
 import {clearTable, createNotesTableIfNotExist, addNoteToDB,
-getAllNotes, test, deleteTable} from '../database/db'
+getAllNotes, deleteTable, deleteNoteFromDB, updateNoteInDB} from '../database/db'
 import { useDbStore } from '../stores/dbStore';
 export default function AddNote() {
 
@@ -30,32 +30,12 @@ export default function AddNote() {
     }
   }, [])
 
-  useEffect(()=>{
-    async function effect(){
-      try{
-        await createNotesTableIfNotExist(db!)
-      }
-      catch (err:any){
-        console.log('error')
-      }
-      
-    }
-    effect()
-
-  }, [])
-
   async function addNote(note:Note){
     addNoteToStore(note)
-    // const platform = (await sqlite.getPlatform()).platform;
-    // console.log('platform', platform);
-    // const db = await sqlite.createConnection(
-    //   "testNew", false, "no-encryption", 1);
-    // await db.open();
-    // let ret: any = await db.execute(`
-    //   CREATE TABLE Notes (
-    //     dateCreated INTEGER PRIMARY KEY NOT NULL
-    //   )`);
-    // console.log(ret);
+    if (db){
+      addNoteToDB(note, db)
+    }
+    
   }
 
   function onClickBackButton(){
@@ -73,6 +53,10 @@ export default function AddNote() {
       const createdNote=createNote(currentNote?.dateCreated)
       if (createdNote?.title){
         editNote(createdNote.dateCreated, createdNote)
+        if (db){
+          updateNoteInDB(createdNote.dateCreated, createdNote, db)
+        }
+        
       }
     }
     

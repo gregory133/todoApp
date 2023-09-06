@@ -31,7 +31,6 @@ export let database:SQLiteObject;
 
 function App(){ 
 
-  // const db=useDbStore(state=>state.db)
   const setDb=useDbStore(state=>state.setDb)
 
   useEffect(()=>{
