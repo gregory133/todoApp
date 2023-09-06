@@ -6,7 +6,8 @@ import './AddNote.css'
 import Note from '../classes/Note';
 import { useNotesStore } from '../stores/notesStore';
 import {clearTable, createNotesTableIfNotExist, addNoteToDB,
-getAllNotes, test} from '../database/db'
+getAllNotes, test, deleteTable} from '../database/db'
+import { useDbStore } from '../stores/dbStore';
 export default function AddNote() {
 
   const history=useHistory()
@@ -21,6 +22,8 @@ export default function AddNote() {
   const contentInputRef=useRef<null|HTMLIonTextareaElement>(null)
   const titleInputRef=useRef<null|HTMLIonInputElement>(null)
 
+  const db=useDbStore(state=>state.db)
+
   useEffect(()=>{
     if (currentNote){
       setIsEditing(true)
@@ -28,20 +31,17 @@ export default function AddNote() {
   }, [])
 
   useEffect(()=>{
-    // async function effect(){
-    //   try{
-    //     await createNotesTableIfNotExist()
-    //     await addNoteToDB(new Note('hello', 'world'))
-    //     const result=await getAllNotes()
-    //     console.log(result.rows.item(0))
-    //   }
-    //   catch (err:any){
-    //     console.log('error', err.message);
-    //   }
+    async function effect(){
+      try{
+        await createNotesTableIfNotExist(db!)
+      }
+      catch (err:any){
+        console.log('error')
+      }
       
-    // }
-    // effect()
-    test()
+    }
+    effect()
+
   }, [])
 
   async function addNote(note:Note){

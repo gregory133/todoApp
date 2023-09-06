@@ -14,6 +14,7 @@ export default function Main(){
   const db=useDbStore(state=>state.db)
   const history = useHistory();
 
+
   return (
     <IonPage>
       <IonHeader>
