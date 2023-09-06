@@ -7,13 +7,19 @@ import SavedNotes from '../components/SavedNotes';
 import {database} from '../App'
 import { SQLiteObject } from '@ionic-native/sqlite';
 import {useDbStore} from '../stores/dbStore'
+import { useNotesStore } from '../stores/notesStore';
 
 
 export default function Main(){
 
   const db=useDbStore(state=>state.db)
+  const setCurrentNotes=useNotesStore(state=>state.setCurrentNote)
   const history = useHistory();
 
+  function onClickAddNoteButton(){
+    setCurrentNotes(null)
+    history.push('/addNote')
+  }
 
   return (
     <IonPage>
@@ -35,7 +41,7 @@ export default function Main(){
         </div>
       </IonContent>
       <IonFooter>
-        <IonButton onClick={()=>{history.push('/addNote')}}>
+        <IonButton onClick={onClickAddNoteButton}>
           <IonIcon className='footerIcon' icon={addOutline}/>
         </IonButton>
       </IonFooter>
