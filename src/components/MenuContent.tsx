@@ -24,9 +24,12 @@ export default function MenuContent() {
   }
 
   function initializeMenuItemDict(){
-    topMenuItems.setValue('/allNotes', new MenuItem('All Notes', ()=>{onClickMenuItem('/allNotes')}, copyOutline))
-    topMenuItems.setValue('/nothing', new MenuItem('All Calendar Notifications', ()=>{}, calendarOutline))
-    bottomMenuItems.setValue('/about', new MenuItem('About', ()=>{}, informationCircleOutline))
+    topMenuItems.setValue('/allNotes', new MenuItem('All Notes', 
+    ()=>{onClickMenuItem('/allNotes')}, copyOutline))
+    topMenuItems.setValue('/nothing', new MenuItem('All Calendar Notifications', 
+    ()=>{}, calendarOutline))
+    bottomMenuItems.setValue('/about', new MenuItem('About', 
+    ()=>{onClickMenuItem('/about')}, informationCircleOutline))
   }
 
   useEffect(()=>{

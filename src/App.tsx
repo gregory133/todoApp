@@ -25,6 +25,7 @@ import AddNote from './pages/AddNote';
 
 import {useDbStore} from './stores/dbStore'
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/';
+import About from './pages/About';
 
 setupIonicReact();
 export let database:SQLiteObject;
@@ -57,6 +58,9 @@ function App(){
           </Route>
           <Route exact path="/addNote">
             <AddNote />
+          </Route>
+          <Route exact path="/about">
+            <About/>
           </Route>
           <Route exact path="/">
             <Redirect to="/allNotes" />
