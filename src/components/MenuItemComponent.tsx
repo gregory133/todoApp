@@ -7,11 +7,12 @@ interface Props{
   menuItem:MenuItem,
   currentMenuItem: MenuItem|undefined,
   onClick: ()=>void
+  defaultBgColor: string
 }
 
 export default function MenuItemComponent(props:Props) {
 
-  let bgColor=''
+  let bgColor=props.defaultBgColor
   if (props.menuItem.title==props.currentMenuItem?.title){bgColor='#3A3A3A'}
 
   return (

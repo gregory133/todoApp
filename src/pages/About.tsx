@@ -8,9 +8,15 @@ import MenuItemComponent from '../components/MenuItemComponent'
 export default function About() {
 
   let externalLinksItems:MenuItem[]=[
-    new MenuItem('Github Repository', ()=>{}, logoGithub),
+    new MenuItem('Github Repository', 
+    ()=>{onClickLink('https://github.com/gregory133/todoApp')}, logoGithub),
     new MenuItem('View my other Projects', ()=>{}, codeSlashOutline)
   ]
+
+  function onClickLink(link:string){
+    console.log(link);
+    window.open(link)
+  }
 
   return (
     <IonPage>
@@ -33,7 +39,8 @@ export default function About() {
           margin: 40}} src='/assets/images/timeline.png'/>
           <h1 style={{
             margin: '0px 0px 20px 0px'
-          }}>TODO App (Version 0.1) 
+            }}>TODO App (Version 0.1)  
+            <span style={{fontSize: 14}}> beta</span>
 
           </h1>
 
@@ -45,7 +52,8 @@ export default function About() {
               externalLinksItems.map((externalLinksItem:MenuItem, key:number)=>{
 
                 return <MenuItemComponent menuItem={externalLinksItem}
-                onClick={()=>{}} currentMenuItem={undefined}/>
+                defaultBgColor='#171717'
+                onClick={externalLinksItem.onClick} currentMenuItem={undefined}/>
               })
             }
             <div style={{flex: 1, display: 'flex', flexDirection: 'column-reverse'}}>
