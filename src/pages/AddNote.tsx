@@ -1,4 +1,4 @@
-import { IonButton, IonContent, IonFooter, IonHeader, IonIcon, IonInput, IonPage, IonTextarea, IonToolbar } from '@ionic/react'
+import { IonButton, IonContent, IonFooter, IonHeader, IonIcon, IonInput, IonMenu, IonPage, IonTextarea, IonToolbar } from '@ionic/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { chevronBackOutline,  } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
@@ -98,28 +98,32 @@ export default function AddNote() {
   }
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <div className='toolbar'>
-            <IonButton onClick={onClickBackButton}>
-              <IonIcon className='backIcon'
-               icon={chevronBackOutline}/>
-            </IonButton>
-            <IonInput ref={titleInputRef} value={currentNote?.title}
-             color='black' className='titleInput' placeholder='Title'/>
-          </div>
-        </IonToolbar>
-        
-        
-      </IonHeader>
-      <IonContent>
-        <IonTextarea ref={contentInputRef} value={currentNote?.content}
-         color='black' className='input' placeholder='Add your notes here'/>
-      </IonContent>
+    <>
       
-      <IonFooter>
-      </IonFooter>
-    </IonPage>
+      <IonPage>
+        <IonHeader>
+          <IonToolbar>
+            <div className='toolbar'>
+              <IonButton onClick={onClickBackButton}>
+                <IonIcon className='backIcon'
+                icon={chevronBackOutline}/>
+              </IonButton>
+              <IonInput ref={titleInputRef} value={currentNote?.title}
+              color='black' className='titleInput' placeholder='Title'/>
+            </div>
+          </IonToolbar>
+          
+          
+        </IonHeader>
+        <IonContent>
+          <IonTextarea ref={contentInputRef} value={currentNote?.content}
+          color='black' className='input' placeholder='Add your notes here'/>
+        </IonContent>
+        
+        <IonFooter>
+        </IonFooter>
+      </IonPage>
+    </>
+    
   )
 }

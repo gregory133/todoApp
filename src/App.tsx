@@ -34,12 +34,18 @@ function App(){
   const setDb=useDbStore(state=>state.setDb)
 
   useEffect(()=>{
-    SQLite.create({
-      name: 'TodoDB',
-      location: 'default'
-    }).then(async (db:SQLiteObject)=>{
-      setDb(db)
-    })
+    try{
+      SQLite.create({
+        name: 'TodoDB',
+        location: 'default'
+      }).then(async (db:SQLiteObject)=>{
+        setDb(db)
+      })
+    }
+    catch (err){
+      console.log('no db support');
+    }
+    
   }, [])
 
   return (

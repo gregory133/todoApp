@@ -1,4 +1,4 @@
-import { IonButton, IonContent, IonFooter, IonHeader, IonIcon, IonPage, IonToolbar } from '@ionic/react'
+import { IonButton, IonButtons, IonContent, IonFooter, IonHeader, IonIcon, IonMenu, IonMenuButton, IonMenuToggle, IonPage, IonToolbar } from '@ionic/react'
 import React, { useEffect, useState } from 'react'
 import { menuOutline, addOutline } from 'ionicons/icons';
 import './AllNotes.css'
@@ -8,6 +8,7 @@ import {database} from '../App'
 import { SQLiteObject } from '@ionic-native/sqlite';
 import {useDbStore} from '../stores/dbStore'
 import { useNotesStore } from '../stores/notesStore';
+import MenuContent from '../components/MenuContent';
 
 
 export default function Main(){
@@ -22,29 +23,44 @@ export default function Main(){
   }
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <div className='toolbar'>
-            <IonButton>
-              <IonIcon className='menuIcon' icon={menuOutline}/>
-            </IonButton>
-            <span>
-              All Notes
-            </span>    
+    <>
+      <IonMenu contentId='AllNotes'>
+        <IonContent>
+          <div className='menuContent'>
+            <MenuContent/>
           </div>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        <div className='content'>
-          <SavedNotes/> 
-        </div>
-      </IonContent>
-      <IonFooter>
-        <IonButton onClick={onClickAddNoteButton}>
-          <IonIcon className='footerIcon' icon={addOutline}/>
-        </IonButton>
-      </IonFooter>
-    </IonPage>
+          
+        </IonContent>
+      </IonMenu>
+      
+      <IonPage id='AllNotes'>
+        <IonHeader>
+          <IonToolbar>
+            <div className='toolbar'>
+              <IonMenuToggle>
+                <IonButton>
+                  <IonIcon className='menuIcon' icon={menuOutline}/>
+                </IonButton>
+              </IonMenuToggle>
+              
+              <span>
+                All Notes
+              </span>    
+            </div>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <div className='content'>
+            <SavedNotes/> 
+          </div>
+        </IonContent>
+        <IonFooter>
+          <IonButton onClick={onClickAddNoteButton}>
+            <IonIcon className='footerIcon' icon={addOutline}/>
+          </IonButton>
+        </IonFooter>
+      </IonPage>
+    </>
+    
   )
 }

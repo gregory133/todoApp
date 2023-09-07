@@ -3,6 +3,11 @@ ion-content{
   font-family: 'SignikaNegative';
 }
 
+.menuContent{
+  background-color: #171717;
+  height: 100%;
+}
+
 .content{
   height: 100%;
   color: white;
