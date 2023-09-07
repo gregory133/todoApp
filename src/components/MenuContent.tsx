@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import MenuItem from '../classes/MenuItem'
-import { copyOutline, calendarOutline, magnetSharp } from 'ionicons/icons';
+import { copyOutline, calendarOutline, informationCircleOutline } from 'ionicons/icons';
 import { IonIcon, IonRippleEffect, IonText } from '@ionic/react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Dictionary } from 'typescript-collections';
+import MenuItemComponent from './MenuItemComponent';
+import { menuController } from '@ionic/core/components';
 
 
 export default function MenuContent() {
@@ -13,10 +15,18 @@ export default function MenuContent() {
   let bottomMenuItems:Dictionary<string, MenuItem>=new Dictionary()
   initializeMenuItemDict()
 
+  const history=useHistory()
+
+  function onClickMenuItem(clickedItemPath:string){
+    menuController.close()
+    history.push(clickedItemPath)
+
+  }
+
   function initializeMenuItemDict(){
-    topMenuItems.setValue('/allNotes', new MenuItem('All Notes', ()=>{}, copyOutline))
+    topMenuItems.setValue('/allNotes', new MenuItem('All Notes', ()=>{onClickMenuItem('/allNotes')}, copyOutline))
     topMenuItems.setValue('/nothing', new MenuItem('All Calendar Notifications', ()=>{}, calendarOutline))
-    bottomMenuItems.setValue('/about', new MenuItem('About', ()=>{}, copyOutline))
+    bottomMenuItems.setValue('/about', new MenuItem('About', ()=>{}, informationCircleOutline))
   }
 
   useEffect(()=>{
@@ -26,37 +36,43 @@ export default function MenuContent() {
 
   return (
     <div style={{
-      padding: 20
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%'
     }}>
-      {
-        topMenuItems.values().map((menuItem:MenuItem, key:number)=>{
+      <div style={{
+        padding: 20,
+        flex: 1,
+        flexGrow: 1
+      }}>
+        {
+          topMenuItems.values().map((menuItem:MenuItem, key:number)=>{
+            
+            return (
+              <MenuItemComponent onClick={()=>{menuItem.onClick()}}
+               menuItem={menuItem} key={key} currentMenuItem={currentMenuItem}/>
+            )
+          })
+        }
+      </div>
+      <div style={{
+        padding: 20,
+        flex: 1,
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column-reverse'
 
-          let bgColor=''
-          if (menuItem.title==currentMenuItem?.title){bgColor='#3A3A3A'}
+      }}>
+        {
+          bottomMenuItems.values().map((menuItem:MenuItem, key:number)=>{
 
-          return (
-            <div className='ion-activatable' key={key} style={{
-              backgroundColor: bgColor,
-              display: 'flex',
-              alignItems: 'center',
-              padding: 20,
-              borderRadius: 10,
-              margin: '10px 0px'
-            }}>
-              <IonRippleEffect/>
-              <IonIcon style={{
-                color: 'white',
-                margin: '0px 20px 0px 0px'
-              }} icon={menuItem.icon}/>
-              <div style={{
-                color: 'white'
-              }}>
-                {menuItem.title}
-              </div>
-            </div>
-          )
-        })
-      }
+            return <MenuItemComponent onClick={()=>{menuItem.onClick()}}
+             menuItem={menuItem} key={key} currentMenuItem={currentMenuItem}/>
+          })
+        }
+      </div>
+
     </div>
+    
   )
 }

@@ -18,10 +18,6 @@ export default function Main(){
   const location = useLocation();
   const history = useHistory();
 
-  // useEffect(()=>{
-  //   console.log(location.pathname);
-  // }, [])
-
   function onClickAddNoteButton(){
     setCurrentNotes(null)
     history.push('/addNote')
