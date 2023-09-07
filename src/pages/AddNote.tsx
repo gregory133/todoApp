@@ -72,9 +72,12 @@ export default function AddNote() {
     if (titleInputRef.current && contentInputRef.current ){
       
       const title:string=titleInputRef.current.value?.toString()!
-      const content:string=contentInputRef.current.value?.toString()!
+      let content:string=contentInputRef.current.value?.toString()!
   
       if (title!=''){
+        if (content===undefined){
+          content=''
+        }
         const createdNote=new Note(title, content) 
         if (dateCreatedOverride){
           // console.log('here');
