@@ -62,6 +62,11 @@ export async function getAllNotes(db:SQLiteObject){
 
 }
 
+export async function getNumberOfNotes(db:SQLiteObject) {
+  const queryResult:any=await executeSql(`select count(*) as note_count from Notes`, db)
+  return queryResult.rows.item(0).note_count
+}
+
 export async function getNoteByDateCreated(db:SQLiteObject, dateCreated: number) {
   const queryResult:any=await executeSql(`select * from Notes where dateCreated = 
   ${dateCreated}`, db)

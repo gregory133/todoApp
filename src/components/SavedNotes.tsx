@@ -8,6 +8,7 @@ import { useHistory } from 'react-router';
 import { useNotesStore } from '../stores/notesStore';
 import NoteCard from './NoteCard';
 import {createNotesTableIfNotExist, deleteNoteFromDB, addNoteToDB, getAllNotes
+  ,getNumberOfNotes
 } from '../database/db'
 import { useDbStore } from '../stores/dbStore';
 
@@ -22,6 +23,7 @@ export default function SavedNotes() {
 
   const longPressedDateCreatedRef=useRef<number>(0)
   const [confirmDeleteModalOpen, setConfirmDeleteModalOpen]=useState<boolean>(false)
+  const [finishedLoading, setFinishedLoading]=useState(false)
   const db=useDbStore(state=>state.db)
 
   useEffect(()=>{
@@ -32,12 +34,27 @@ export default function SavedNotes() {
       storedNotes.forEach((storedNote:Note)=>{
         addNote(storedNote)
       }) 
+      
     }
     if (db){
       dbRoutine()
     }
    
   }, [db])
+
+  useEffect(()=>{
+    if (db){
+      getNumberOfNotes(db)
+      .then(numberOfNotesInDB=>{
+        console.log('number', numberOfNotesInDB);
+        const numberOfNotesActuallyLoaded=savedNotes.keys().length
+        if (numberOfNotesActuallyLoaded==numberOfNotesInDB){
+          setFinishedLoading(true)
+        }
+      })
+    }
+    
+  }, [savedNotes, db])
 
   function onClickSavedNote(savedNote:Note){
     setCurrentNote(savedNote)
@@ -63,41 +80,46 @@ export default function SavedNotes() {
 
   useEffect(()=>{
     if (currentNote){
-      // console.log(currentNote);
       history.push('/addNote')
     }
 
   }, [currentNote])
 
+
   return (
 
-    <>
-    {
-      savedNotes.size()==0 
-      ? (
-        <div className='empty'>
-          <h1>
-            No notes
-          </h1>
-          <p>
-            Tap the Add button to create a note.
-          </p>
-        </div> 
-        
-      )
-      : (
-        <div className='notesContainer'>
-          {
-            savedNotes.keys().sort((a, b)=>a-b).map((key, index)=>
-              <NoteCard key={index} dateCreated={key}
-              onClickSavedNote={onClickSavedNote} onLongPressedNote={onLongPressedNote}
-              savedNotes={savedNotes}/>
-            )
-          }
-        </div>
-      )
-    }  
-    <IonModal onDidDismiss={()=>{setConfirmDeleteModalOpen(false)}} isOpen={confirmDeleteModalOpen}>
+    <>{
+      finishedLoading
+      ? (savedNotes.size()==0 
+        ? (   
+          <div className='empty'>
+            <h1>
+              No notes
+            </h1>
+            <p>
+              Tap the Add button to create a note.
+            </p>
+          </div> 
+          
+        )
+        : (
+          <div className='notesContainer'>
+            {
+              savedNotes.keys().sort((a, b)=>a-b).map((key, index)=>
+                <NoteCard key={index} dateCreated={key}
+                onClickSavedNote={onClickSavedNote} onLongPressedNote={onLongPressedNote}
+                savedNotes={savedNotes}/>
+              )
+            }
+          </div>
+        ))
+      : (null)
+  
+    }
+
+    
+    <IonModal onDidDismiss={()=>{setConfirmDeleteModalOpen(false)}} 
+    isOpen={confirmDeleteModalOpen}>
       <div className='deleteModalContent'>
         <span>Delete the note?</span>    
         <div>
