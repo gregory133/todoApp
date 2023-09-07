@@ -52,14 +52,14 @@ function App(){
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route exact path="/main">
+          <Route exact path="/allNotes">
             <AllNotes/>
           </Route>
           <Route exact path="/addNote">
             <AddNote />
           </Route>
           <Route exact path="/">
-            <Redirect to="/main" />
+            <Redirect to="/allNotes" />
           </Route>
         </IonRouterOutlet>
       </IonReactRouter>

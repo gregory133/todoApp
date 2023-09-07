@@ -10,12 +10,17 @@ import {useDbStore} from '../stores/dbStore'
 import { useNotesStore } from '../stores/notesStore';
 import MenuContent from '../components/MenuContent';
 
-
 export default function Main(){
 
   const db=useDbStore(state=>state.db)
   const setCurrentNotes=useNotesStore(state=>state.setCurrentNote)
+
+  const location = useLocation();
   const history = useHistory();
+
+  // useEffect(()=>{
+  //   console.log(location.pathname);
+  // }, [])
 
   function onClickAddNoteButton(){
     setCurrentNotes(null)
