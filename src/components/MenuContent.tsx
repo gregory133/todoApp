@@ -38,7 +38,8 @@ export default function MenuContent() {
     <div style={{
       display: 'flex',
       flexDirection: 'column',
-      height: '100%'
+      height: '100%',
+      
     }}>
       <div style={{
         padding: 20,

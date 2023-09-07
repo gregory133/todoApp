@@ -30,7 +30,6 @@ export default function Main(){
           <div className='menuContent'>
             <MenuContent/>
           </div>
-          
         </IonContent>
       </IonMenu>
       
