@@ -111,8 +111,7 @@ export default function AddNote() {
               <IonInput ref={titleInputRef} value={currentNote?.title}
               color='black' className='titleInput' placeholder='Title'/>
             </div>
-          </IonToolbar>
-          
+          </IonToolbar>     
           
         </IonHeader>
         <IonContent>

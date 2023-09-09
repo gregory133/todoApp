@@ -1,0 +1,9 @@
+ion-toolbar h1{
+  color :'white';
+}
+
+ion-datetime{
+  --background: '#171717';
+  --wheel-highlight-background: '#3A3A3A';
+  --wheel-fade-background-rgb:23, 23, 23;
+}

@@ -26,8 +26,8 @@ export default function MenuContent() {
   function initializeMenuItemDict(){
     topMenuItems.setValue('/allNotes', new MenuItem('All Notes', 
     ()=>{onClickMenuItem('/allNotes')}, copyOutline))
-    topMenuItems.setValue('/nothing', new MenuItem('All Calendar Notifications', 
-    ()=>{}, calendarOutline))
+    topMenuItems.setValue('/allReminders', new MenuItem('All Reminders', 
+    ()=>{onClickMenuItem('/allReminders')}, calendarOutline))
     bottomMenuItems.setValue('/about', new MenuItem('About', 
     ()=>{onClickMenuItem('/about')}, informationCircleOutline))
   }
@@ -53,7 +53,7 @@ export default function MenuContent() {
           topMenuItems.values().map((menuItem:MenuItem, key:number)=>{
             
             return (
-              <MenuItemComponent onClick={()=>{menuItem.onClick()}}
+              <MenuItemComponent defaultBgColor='' onClick={()=>{menuItem.onClick()}}
                menuItem={menuItem} key={key} currentMenuItem={currentMenuItem}/>
             )
           })
@@ -70,7 +70,7 @@ export default function MenuContent() {
         {
           bottomMenuItems.values().map((menuItem:MenuItem, key:number)=>{
 
-            return <MenuItemComponent onClick={()=>{menuItem.onClick()}}
+            return <MenuItemComponent defaultBgColor='' onClick={()=>{menuItem.onClick()}}
              menuItem={menuItem} key={key} currentMenuItem={currentMenuItem}/>
           })
         }

@@ -4,6 +4,7 @@ import React from 'react'
 import { Dictionary } from 'typescript-collections'
 import MenuItem from '../classes/MenuItem'
 import MenuItemComponent from '../components/MenuItemComponent'
+import { useHistory } from 'react-router'
 
 export default function About() {
 
@@ -12,6 +13,7 @@ export default function About() {
     ()=>{onClickLink('https://github.com/gregory133/todoApp')}, logoGithub),
     new MenuItem('View my other Projects', ()=>{}, codeSlashOutline)
   ]
+  const history=useHistory()
 
   function onClickLink(link:string){
     console.log(link);
@@ -23,7 +25,7 @@ export default function About() {
       <IonHeader>
         <IonToolbar>
           <div className='toolbar'>
-            <IonButton>
+            <IonButton onClick={()=>history.goBack()}>
               <IonIcon className='ion-activatable' icon={chevronBack}
               style={{color: 'white'}}>
                 <IonRippleEffect/>
