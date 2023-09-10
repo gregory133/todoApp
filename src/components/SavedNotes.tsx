@@ -9,7 +9,7 @@ import { useNotesStore } from '../stores/notesStore';
 import NoteCard from './NoteCard';
 import {createNotesTableIfNotExist, deleteNoteFromDB, addNoteToDB, getAllNotes
   ,getNumberOfNotes
-} from '../database/db'
+} from '../database/notesDBInterface'
 import { useDbStore } from '../stores/dbStore';
 
 export default function SavedNotes() {

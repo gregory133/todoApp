@@ -6,7 +6,7 @@ import './AddNote.css'
 import Note from '../classes/Note';
 import { useNotesStore } from '../stores/notesStore';
 import {clearTable, createNotesTableIfNotExist, addNoteToDB,
-getAllNotes, deleteTable, deleteNoteFromDB, updateNoteInDB} from '../database/db'
+getAllNotes, deleteTable, deleteNoteFromDB, updateNoteInDB} from '../database/notesDBInterface'
 import { useDbStore } from '../stores/dbStore';
 export default function AddNote() {
 

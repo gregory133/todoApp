@@ -1,34 +1,15 @@
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/';
 import Note from '../classes/Note';
-
-async function executeSql(sql:string, db:SQLiteObject){
-  let queryResult
-  try{
-    queryResult = await db.executeSql(sql, [])
-  }
-  catch(err){
-    console.log(JSON.stringify(err));
-  }
-  
-  return queryResult
-}
+import { executeSql } from './dbUtility';
 
 
-export async function clearTable(db:SQLiteObject, tableName:string){
-  executeSql(`delete from ${tableName};`, db)
-}
-
-export async function deleteTable(db:SQLiteObject, tableName:string){
-  executeSql(`drop table ${tableName};`, db)
-}
 
 export async function createNotesTableIfNotExist(db:SQLiteObject){
   executeSql(`
     create table if not exists Notes (
     dateCreated integer primary key not null,
     title text,
-    content text);`, db)
-  
+    content text);`, db) 
 }
 
 export async function addNoteToDB(note:Note, db:SQLiteObject) {
@@ -54,9 +35,7 @@ export async function getAllNotes(db:SQLiteObject){
       notes.push(queryResult.rows.item(i))
     }
   }
-  else{
-    console.log('nothing');
-  }
+
   return notes
   
 
