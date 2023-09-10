@@ -6,11 +6,17 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { Dictionary } from 'typescript-collections';
 import MenuItemComponent from './MenuItemComponent';
 import { menuController } from '@ionic/core/components';
+import { useMenuStore } from '../stores/menuStore';
 
+interface Props{
+  type:string
+}
 
-export default function MenuContent() {
+export default function MenuContent(props:Props) {
 
-  const [currentMenuItem, setCurrentMenuItem]=useState<undefined|MenuItem>(undefined)
+  const currentMenuItem=useMenuStore(state=>state.currentMenuItem)
+  const setCurrentMenuItem=useMenuStore(state=>state.setCurrentMenuItem)
+
   let topMenuItems:Dictionary<string, MenuItem>=new Dictionary()
   let bottomMenuItems:Dictionary<string, MenuItem>=new Dictionary()
   initializeMenuItemDict()
@@ -33,9 +39,12 @@ export default function MenuContent() {
   }
 
   useEffect(()=>{
+    
     const currentPath=location.pathname
     setCurrentMenuItem(topMenuItems.getValue(currentPath))
-  }, [])
+
+  }, [location.pathname])
+ 
 
   return (
     <div style={{

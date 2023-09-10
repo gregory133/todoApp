@@ -28,7 +28,7 @@ export default function Main(){
       <IonMenu contentId='AllNotes'>
         <IonContent>
           <div className='menuContent'>
-            <MenuContent/>
+            <MenuContent type='allNotes'/>
           </div>
         </IonContent>
       </IonMenu>
