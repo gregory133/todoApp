@@ -4,6 +4,7 @@ import React from 'react'
 import { useHistory } from 'react-router'
 import './AllReminders.css'
 import MenuContent from '../components/MenuContent'
+import SavedReminders from '../components/SavedReminders'
 
 export default function AllReminders() {
 
@@ -43,6 +44,7 @@ export default function AllReminders() {
             <IonDatetime style={{borderRadius: 10, backgroundColor: 'black',
             color: 'white', fontWeight: 200, fontFamily: 'SignikaNegative'}}/>
           </div>
+          <SavedReminders/>
         </IonContent>
         <IonFooter>
           <IonButton onClick={onClickAddNoteButton}>
