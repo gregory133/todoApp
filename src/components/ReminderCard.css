@@ -1,0 +1,28 @@
+.deleteReminderModal{
+  /* margin: 10px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  color: white;
+  font-size: 25px;
+  font-family: 'SignikaNegative';
+}
+
+.deleteReminderModal span{
+  font-size: 20px;
+  margin: 10px 40px;
+}
+
+.deleteReminderModal > div{
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.deleteReminderModal > div > div{
+  width: 1px;
+  /* margin: 0px 20px; */
+  height: 25px;
+  background-color: aliceblue;
+}

@@ -107,7 +107,8 @@ export default function SavedNotes() {
             {
               savedNotes.keys().sort((a, b)=>a-b).map((key, index)=>
                 <NoteCard key={index} dateCreated={key}
-                onClickSavedNote={onClickSavedNote} onLongPressedNote={onLongPressedNote}
+                onClickSavedNote={onClickSavedNote} 
+                onLongPressedNote={onLongPressedNote}
                 savedNotes={savedNotes}/>
               )
             }

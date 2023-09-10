@@ -41,7 +41,8 @@ export default function NoteCard(props:Props) {
   return (
     <div {...bind()} ref={elementRef} className='savedNote'>         
       <div className=' ion-activatable' 
-      onClick={()=>props.onClickSavedNote(props.savedNotes.getValue(props.dateCreated)!)}>
+      onClick={()=>props.onClickSavedNote(
+        props.savedNotes.getValue(props.dateCreated)!)}>
         <IonRippleEffect/>
         {props.savedNotes.getValue(props.dateCreated)!.content}
       </div>

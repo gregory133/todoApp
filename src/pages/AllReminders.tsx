@@ -10,8 +10,6 @@ export default function AllReminders() {
 
   const history=useHistory()
 
-  
-
   function onClickAddNoteButton(){
     history.push('/addReminder')
   }

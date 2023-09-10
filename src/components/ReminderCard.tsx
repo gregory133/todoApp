@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Reminder from '../classes/Reminder'
-import { IonButton, IonIcon, IonRippleEffect } from '@ionic/react'
+import { IonButton, IonIcon, IonModal, IonRippleEffect } from '@ionic/react'
 import { createOutline, trashOutline } from 'ionicons/icons'
 import IconButton from './IconButton'
+import './ReminderCard.css'
 
 interface Props{
   reminder:Reminder|undefined
 }
 
 export default function ReminderCard(props:Props) {
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen]=useState(false)
 
   function parseISODatetime(isoDatetime:string){
     let prettyString=new Date(props.reminder?.dateTime!).toString()
@@ -20,9 +23,18 @@ export default function ReminderCard(props:Props) {
     return prettyString
   }
 
+  function onClickDeleteButton(){
+    setIsDeleteModalOpen(true)
+  }
+
+  function deleteReminder(){
+    
+    setIsDeleteModalOpen(false)
+  }
+
   useEffect(()=>{
-    // console.log(parseISODatetime(props.reminder?.dateTime!)); 
-  }, [])
+    console.log(isDeleteModalOpen);
+  }, [isDeleteModalOpen])
 
   return (
     <div style={{marginBottom: 10, minHeight: 50, display: 'flex', flexDirection: 'row', 
@@ -36,10 +48,21 @@ export default function ReminderCard(props:Props) {
         </span>
       </div>
       <div style={{display :'flex'}}>
-        <IconButton icon={createOutline}/>  
-        <IconButton icon={trashOutline}/>  
+        <IconButton onClick={()=>{}} color= '#0481FF' icon={createOutline}/>  
+        <IconButton onClick={onClickDeleteButton} color='#F16B4F' icon={trashOutline}/>  
       </div>
       
+      <IonModal onDidDismiss={()=>{setIsDeleteModalOpen(false)}} 
+      isOpen={isDeleteModalOpen}>
+        <div className='deleteReminderModal'>
+          <span>Delete the reminder?</span>    
+          <div>
+            <span onClick={()=>{setIsDeleteModalOpen(false)}}>Cancel</span>
+            <div></div>
+            <span onClick={deleteReminder} className='red'>Delete</span>
+          </div>
+        </div>
+      </IonModal>
       
     </div>
   )

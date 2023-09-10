@@ -14,8 +14,8 @@ export default function SavedReminders() {
   useEffect(()=>{
     // addReminder(new Reminder('Test reminder', new Date(Date.now()).toISOString(),
     // 'none'))
-    // addReminder(new Reminder('Test reminder 2', new Date(Date.now()).toISOString(),
-    // 'work'))
+    addReminder(new Reminder('Test reminder 2', new Date(Date.now()).toISOString(),
+    'work'))
   }, [])
 
   return (
