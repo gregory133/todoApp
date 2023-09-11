@@ -1,15 +1,41 @@
 import { IonButton, IonContent, IonDatetime, IonFooter, IonHeader, IonIcon, IonPage, IonRadio, IonRadioGroup, IonTextarea, IonToolbar } from '@ionic/react'
 import { addOutline, chevronBackOutline } from 'ionicons/icons'
-import React from 'react'
+import React, { useLayoutEffect, useRef } from 'react'
 import { useHistory } from 'react-router'
 import './AddReminder.css'
 import ReminderFlairRadio from '../components/ReminderFlairRadio'
+import { Flair } from '../classes/Reminder'
 
-export default function AddReminder() {
+interface Props{
+  isEditing:boolean
+}
 
+export default function AddReminder(props:Props) {
+
+  const selectedFlairRef=useRef(-1)
+  const flairRef=useRef<HTMLIonRadioGroupElement>(null)
+  const memoRef=useRef<HTMLIonTextareaElement>(null)
   const history=useHistory()
 
+  function constructRemainder(){
+    const memo=memoRef.current?.value?.toString()
+    let flair:Flair='none'
+
+    flairRef.current?.childNodes.forEach((childNode)=>{
+      const radioButtonElement=childNode as HTMLIonRadioElement
+      if (radioButtonElement.ariaChecked==='true'){
+        flair=radioButtonElement.innerText as Flair
+      }
+    })
+  }
+
   function onClickBackButton(){
+    if (props.isEditing){
+
+    }
+    else{
+      let remainder=constructRemainder()
+    }
     history.goBack()
   }
 
@@ -33,7 +59,7 @@ export default function AddReminder() {
         <div style={{display:'flex', flexDirection: 'column',
          padding: 10, height :'100%'}}>
           <div style={{marginBottom: 10}}>
-            <IonTextarea color='black' placeholder='Add Memo'
+            <IonTextarea ref={memoRef} color='black' placeholder='Add Memo'
             style={{backgroundColor: '#171717', color: 'white',
             fontFamily: 'SignikaNegative', fontSize: 20,
             borderRadius: '10px', height: 150, padding: '0px 15px 0px 15px'
@@ -51,7 +77,8 @@ export default function AddReminder() {
           flexGrow: 1, flex: 1, flexShrink :1, fontSize: 20}}>
             Add a Flair
             <div>
-              <IonRadioGroup allowEmptySelection={true} style={{display: 'flex', flexDirection: 'column'}}>
+              <IonRadioGroup allowEmptySelection={true} ref={flairRef}
+              style={{display: 'flex', flexDirection: 'column'}}>
                 <ReminderFlairRadio label='Homework'/>
                 <ReminderFlairRadio label='Exam'/>
                 <ReminderFlairRadio label='Work'/>

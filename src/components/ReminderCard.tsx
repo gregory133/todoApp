@@ -33,7 +33,7 @@ export default function ReminderCard(props:Props) {
   }
 
   useEffect(()=>{
-    console.log(isDeleteModalOpen);
+    // console.log(isDeleteModalOpen);
   }, [isDeleteModalOpen])
 
   return (

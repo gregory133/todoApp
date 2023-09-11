@@ -5,8 +5,8 @@ import { useHistory } from 'react-router-dom';
 import './AddNote.css'
 import Note from '../classes/Note';
 import { useNotesStore } from '../stores/notesStore';
-import {clearTable, createNotesTableIfNotExist, addNoteToDB,
-getAllNotes, deleteTable, deleteNoteFromDB, updateNoteInDB} from '../database/notesDBInterface'
+import {createNotesTableIfNotExist, addNoteToDB,
+getAllNotes, deleteNoteFromDB, updateNoteInDB} from '../database/notesDBInterface'
 import { useDbStore } from '../stores/dbStore';
 export default function AddNote() {
 
