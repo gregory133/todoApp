@@ -32,7 +32,6 @@ export default function AllReminders() {
                   <IonIcon className='menuIcon' icon={menuOutline}/>
                 </IonButton>
               </IonMenuToggle>
-              
               All Reminders
             </div>
           </IonToolbar>

@@ -3,6 +3,8 @@ import { useReminderStore } from '../stores/reminderStore'
 import ReminderCard from './ReminderCard'
 import { IonContent } from '@ionic/react'
 import Reminder from '../classes/Reminder'
+import { useDbStore } from '../stores/dbStore'
+import { createReminderTableIfNotExist, getAllReminders } from '../database/remindersDBInterface'
 
 export default function SavedReminders() {
 
@@ -11,12 +13,22 @@ export default function SavedReminders() {
   const deleteReminder=useReminderStore(state=>state.deleteReminder)
   const editReminder=useReminderStore(state=>state.editReminder)
 
+  const db=useDbStore(state=>state.db)
+
+  function loadRemindersFromDB(){
+    getAllReminders(db!)
+    .then((storedReminders:Reminder[])=>{
+      console.log(storedReminders);
+      storedReminders.forEach((storedReminder:Reminder)=>{
+        addReminder(storedReminder)
+      })
+    })
+  }
+
   useEffect(()=>{
-    // addReminder(new Reminder('Test reminder', new Date(Date.now()).toISOString(),
-    // 'none'))
-    addReminder(new Reminder('Test reminder 2', new Date(Date.now()).toISOString(),
-    'work'))
-  }, [])
+    createReminderTableIfNotExist(db!)
+    loadRemindersFromDB()
+  }, [db])
 
   return (
     <div style={{backgroundColor: '#171717', margin: 10, 

@@ -4,7 +4,10 @@ import React, { useLayoutEffect, useRef } from 'react'
 import { useHistory } from 'react-router'
 import './AddReminder.css'
 import ReminderFlairRadio from '../components/ReminderFlairRadio'
-import { Flair } from '../classes/Reminder'
+import Reminder, { Flair } from '../classes/Reminder'
+import { useReminderStore } from '../stores/reminderStore'
+import { addReminderToDB } from '../database/remindersDBInterface'
+import { useDbStore } from '../stores/dbStore'
 
 interface Props{
   isEditing:boolean
@@ -12,13 +15,20 @@ interface Props{
 
 export default function AddReminder(props:Props) {
 
+  const addReminder=useReminderStore(state=>state.addReminder)
+  const db=useDbStore(state=>state.db)
+
   const selectedFlairRef=useRef(-1)
   const flairRef=useRef<HTMLIonRadioGroupElement>(null)
+  const datetimeRef=useRef<string>('')
   const memoRef=useRef<HTMLIonTextareaElement>(null)
   const history=useHistory()
 
   function constructRemainder(){
-    const memo=memoRef.current?.value?.toString()
+    let memo=memoRef.current?.value?.toString()
+    if (memo ===undefined){
+      memo=''
+    }
     let flair:Flair='none'
 
     flairRef.current?.childNodes.forEach((childNode)=>{
@@ -27,6 +37,18 @@ export default function AddReminder(props:Props) {
         flair=radioButtonElement.innerText as Flair
       }
     })
+
+    let datetime=datetimeRef.current
+    if (datetime==''){
+      datetime=new Date(Date.now()).toISOString()
+    }
+    
+    return new Reminder(memo, datetime, flair)
+
+  }
+
+  function onDatetimeChange(event:any){
+    datetimeRef.current=event.detail.value
   }
 
   function onClickBackButton(){
@@ -35,6 +57,8 @@ export default function AddReminder(props:Props) {
     }
     else{
       let remainder=constructRemainder()
+      addReminder(remainder)
+      addReminderToDB(remainder, db!)
     }
     history.goBack()
   }
@@ -67,7 +91,8 @@ export default function AddReminder(props:Props) {
           </div>
           <div style={{backgroundColor: '#171717', borderRadius: 10,
           marginBottom: 10}}>
-            <IonDatetime style={{borderRadius: 10,
+            <IonDatetime onIonChange={onDatetimeChange}
+            style={{borderRadius: 10,
               color: 'white', backgroundColor: '#171717'
             }} preferWheel={true}/>
           </div>
