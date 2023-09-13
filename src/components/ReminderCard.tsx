@@ -4,6 +4,10 @@ import { IonButton, IonIcon, IonModal, IonRippleEffect } from '@ionic/react'
 import { createOutline, trashOutline } from 'ionicons/icons'
 import IconButton from './IconButton'
 import './ReminderCard.css'
+import { useReminderStore } from '../stores/reminderStore'
+import { deleteNoteFromDB } from '../database/notesDBInterface'
+import { useDbStore } from '../stores/dbStore'
+import { deleteReminderFromDB } from '../database/remindersDBInterface'
 
 interface Props{
   reminder:Reminder|undefined
@@ -12,6 +16,9 @@ interface Props{
 export default function ReminderCard(props:Props) {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen]=useState(false)
+  const deleteReminderFromStore=useReminderStore(state=>state.deleteReminder)
+
+  const db=useDbStore(state=>state.db)
 
   function parseISODatetime(isoDatetime:string){
     let prettyString=new Date(props.reminder?.dateTime!).toString()
@@ -28,7 +35,9 @@ export default function ReminderCard(props:Props) {
   }
 
   function deleteReminder(){
-    
+    const dateCreated:number=props.reminder?.dateCreated!
+    deleteReminderFromStore(dateCreated)
+    deleteReminderFromDB(dateCreated, db!)
     setIsDeleteModalOpen(false)
   }
 
