@@ -65,7 +65,7 @@ function App(){
             <AddNote />
           </Route>
           <Route exact path="/addReminder">
-            <AddReminder isEditing={false}/>
+            <AddReminder/>
           </Route>
           <Route exact path="/about">
             <About/>

@@ -1,6 +1,6 @@
 import { IonButton, IonContent, IonDatetime, IonFooter, IonHeader, IonIcon, IonPage, IonRadio, IonRadioGroup, IonTextarea, IonToolbar } from '@ionic/react'
 import { addOutline, chevronBackOutline } from 'ionicons/icons'
-import React, { useLayoutEffect, useRef } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router'
 import './AddReminder.css'
 import ReminderFlairRadio from '../components/ReminderFlairRadio'
@@ -9,20 +9,23 @@ import { useReminderStore } from '../stores/reminderStore'
 import { addReminderToDB } from '../database/remindersDBInterface'
 import { useDbStore } from '../stores/dbStore'
 
-interface Props{
-  isEditing:boolean
-}
+export default function AddReminder() {
 
-export default function AddReminder(props:Props) {
+  const [isEditing, setIsEditing]=useState(false)
 
   const addReminder=useReminderStore(state=>state.addReminder)
+  const currentReminder=useReminderStore(state=>state.currentReminder)
+
   const db=useDbStore(state=>state.db)
 
   const selectedFlairRef=useRef(-1)
   const flairRef=useRef<HTMLIonRadioGroupElement>(null)
-  const datetimeRef=useRef<string>('')
+  const ionDatetimeRef=useRef<HTMLIonDatetimeElement>(null)
   const memoRef=useRef<HTMLIonTextareaElement>(null)
   const history=useHistory()
+
+  const [currentDatetime, setCurrentDatetime]=useState<string>(
+    new Date(Date.now()).toISOString())
 
   function constructRemainder(){
     let memo=memoRef.current?.value?.toString()
@@ -38,7 +41,7 @@ export default function AddReminder(props:Props) {
       }
     })
 
-    let datetime=datetimeRef.current
+    let datetime=currentDatetime
     if (datetime==''){
       datetime=new Date(Date.now()).toISOString()
     }
@@ -48,12 +51,29 @@ export default function AddReminder(props:Props) {
   }
 
   function onDatetimeChange(event:any){
-    datetimeRef.current=event.detail.value
+    setCurrentDatetime(event.detail.value)
+  }
+
+  useEffect(()=>{
+    if (currentReminder){
+      setReminderValues(currentReminder)
+      setIsEditing(true)
+    }
+    console.log(JSON.stringify(currentReminder));
+  }, [])
+
+  useEffect(()=>{
+    ionDatetimeRef.current?.reset(currentDatetime)
+  }, [currentDatetime])
+
+  function setReminderValues(reminder:Reminder){
+    // console.log(reminder.dateTime);
+    setCurrentDatetime(reminder.dateTime)
   }
 
   function onClickBackButton(){
-    if (props.isEditing){
-
+    if (isEditing){
+      console.log('is editing');
     }
     else{
       let remainder=constructRemainder()
@@ -62,6 +82,8 @@ export default function AddReminder(props:Props) {
     }
     history.goBack()
   }
+
+  console.log('editing:', isEditing);
 
   return (
  
@@ -91,7 +113,10 @@ export default function AddReminder(props:Props) {
           </div>
           <div style={{backgroundColor: '#171717', borderRadius: 10,
           marginBottom: 10}}>
-            <IonDatetime onIonChange={onDatetimeChange}
+            <IonDatetime 
+            ref={ionDatetimeRef}
+            value={currentDatetime}
+            onIonChange={onDatetimeChange}
             style={{borderRadius: 10,
               color: 'white', backgroundColor: '#171717'
             }} preferWheel={true}/>

@@ -4,6 +4,8 @@ import Reminder from "../classes/Reminder";
 
 interface ReminderState {
   reminders: Dictionary<number, Reminder>,
+  currentReminder: null|Reminder,
+  setCurrentReminder: (reminder:Reminder|null)=>void
   addReminder: (newReminder: Reminder) => void,
   deleteReminder: (dateCreated: number) => void,
   editReminder: (dateCreated:number, newReminder:Reminder)=>void
@@ -12,6 +14,10 @@ interface ReminderState {
 export const useReminderStore = create<ReminderState>()(set => (
   {
     reminders: new Dictionary(),
+    currentReminder: null,
+    setCurrentReminder: (newCurrentReminder:Reminder|null)=>set(state=>{
+      return {currentReminder: newCurrentReminder}
+    }),
     addReminder: (newReminder: Reminder) => set(state => {
       const newDict = new Dictionary<number, Reminder>()
       state.reminders.forEach((key: number, value: Reminder) => {

@@ -8,6 +8,7 @@ import { useReminderStore } from '../stores/reminderStore'
 import { deleteNoteFromDB } from '../database/notesDBInterface'
 import { useDbStore } from '../stores/dbStore'
 import { deleteReminderFromDB } from '../database/remindersDBInterface'
+import { useHistory } from 'react-router'
 
 interface Props{
   reminder:Reminder|undefined
@@ -16,7 +17,12 @@ interface Props{
 export default function ReminderCard(props:Props) {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen]=useState(false)
+
+  const currentReminder=useReminderStore(state=>state.currentReminder)
+  const setCurrentReminder=useReminderStore(state=>state.setCurrentReminder)
   const deleteReminderFromStore=useReminderStore(state=>state.deleteReminder)
+
+  const history=useHistory()
 
   const db=useDbStore(state=>state.db)
 
@@ -33,6 +39,21 @@ export default function ReminderCard(props:Props) {
   function onClickDeleteButton(){
     setIsDeleteModalOpen(true)
   }
+
+  function onClickEditButton(){
+    // console.log('wanted to edit');
+
+    const reminder=props.reminder! as Reminder
+    setCurrentReminder(reminder)
+    
+  }
+
+  useEffect(()=>{
+    // console.log(JSON.stringify(currentReminder));
+    if (currentReminder){
+      history.push('/addReminder')
+    }
+  }, [currentReminder])
 
   function deleteReminder(){
     const dateCreated:number=props.reminder?.dateCreated!
@@ -57,7 +78,7 @@ export default function ReminderCard(props:Props) {
         </span>
       </div>
       <div style={{display :'flex'}}>
-        <IconButton onClick={()=>{}} color= '#0481FF' icon={createOutline}/>  
+        <IconButton onClick={onClickEditButton} color= '#0481FF' icon={createOutline}/>  
         <IconButton onClick={onClickDeleteButton} color='#F16B4F' icon={trashOutline}/>  
       </div>
       

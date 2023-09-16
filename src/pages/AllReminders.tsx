@@ -5,14 +5,19 @@ import { useHistory } from 'react-router'
 import './AllReminders.css'
 import MenuContent from '../components/MenuContent'
 import SavedReminders from '../components/SavedReminders'
+import { useReminderStore } from '../stores/reminderStore'
 
 export default function AllReminders() {
 
+  const setCurrentReminder=useReminderStore(state=>state.setCurrentReminder)
   const history=useHistory()
 
   function onClickAddNoteButton(){
+    setCurrentReminder(null)
     history.push('/addReminder')
   }
+
+  
 
   return (
     <>

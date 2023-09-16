@@ -8,6 +8,7 @@ import { useNotesStore } from '../stores/notesStore';
 import {createNotesTableIfNotExist, addNoteToDB,
 getAllNotes, deleteNoteFromDB, updateNoteInDB} from '../database/notesDBInterface'
 import { useDbStore } from '../stores/dbStore';
+
 export default function AddNote() {
 
   const history=useHistory()
