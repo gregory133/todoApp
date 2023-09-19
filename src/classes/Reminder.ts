@@ -1,4 +1,4 @@
-export type Flair = 'none'|'homework'|'exam'|'chore'|'appointment'|'work'|'miscellaneous'
+export type Flair = 'None'|'Homework'|'Exam'|'Chore'|'Appointment'|'Work'|'Miscellaneous'
 
 export default class Reminder{
 

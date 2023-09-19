@@ -4,12 +4,16 @@ import './ReminderFlairRadio.css'
 
 interface Props{
   label:string,
+  value:number
   // defaultChecked:boolean
 }
 
 export default function ReminderFlairRadio(props:Props) {
+
+  // console.log(props.value);
+
   return (
-    <IonRadio style={{margin:5}} justify='start' labelPlacement='end'>
+    <IonRadio value={props.value} style={{margin:5}} justify='start' labelPlacement='end'>
       {props.label}
     </IonRadio>
   )

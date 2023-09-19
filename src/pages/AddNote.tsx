@@ -41,7 +41,6 @@ export default function AddNote() {
 
   function onClickBackButton(){
     setCurrentNote(null)
-    
 
     if (!isEditing){
       const createdNote=createNote()

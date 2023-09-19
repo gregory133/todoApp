@@ -26,32 +26,40 @@ export default function AddReminder() {
 
   const [currentDatetime, setCurrentDatetime]=useState<string>(
     new Date(Date.now()).toISOString())
+  const [currentMemoText, setCurrentMemoText]=useState<string>('')
+  const [currentFlairValue, setCurrentFlairValue]=useState(-1)
+
+  const flairLabels=['Homework', 'Exam', 'Work', 'Appointment', 'Chore', 'Miscellaneous']
 
   function constructRemainder(){
     let memo=memoRef.current?.value?.toString()
     if (memo ===undefined){
       memo=''
     }
-    let flair:Flair='none'
-
-    flairRef.current?.childNodes.forEach((childNode)=>{
-      const radioButtonElement=childNode as HTMLIonRadioElement
-      if (radioButtonElement.ariaChecked==='true'){
-        flair=radioButtonElement.innerText as Flair
-      }
-    })
+    let flair:Flair='None'
+    try{
+      flair=flairLabels[flairRef.current?.value] as Flair
+    }
+    catch (err){}
+  
 
     let datetime=currentDatetime
     if (datetime==''){
       datetime=new Date(Date.now()).toISOString()
     }
     
-    return new Reminder(memo, datetime, flair)
+    const reminderConstructed=new Reminder(memo, datetime, flair)
+    console.log(JSON.stringify(reminderConstructed));
+    return reminderConstructed
 
   }
 
   function onDatetimeChange(event:any){
     setCurrentDatetime(event.detail.value)
+  }
+  function onMemoTextareaChange(){
+    const newMemo:string=memoRef.current?.value!;
+    setCurrentMemoText(newMemo)
   }
 
   useEffect(()=>{
@@ -59,7 +67,7 @@ export default function AddReminder() {
       setReminderValues(currentReminder)
       setIsEditing(true)
     }
-    console.log(JSON.stringify(currentReminder));
+    // console.log(JSON.stringify(currentReminder));
   }, [])
 
   useEffect(()=>{
@@ -67,8 +75,15 @@ export default function AddReminder() {
   }, [currentDatetime])
 
   function setReminderValues(reminder:Reminder){
-    // console.log(reminder.dateTime);
     setCurrentDatetime(reminder.dateTime)
+    setCurrentMemoText(reminder.memo)
+    for (let i=0; i<flairLabels.length; i++){
+      const flairLabel=flairLabels[i]
+      if (flairLabel==reminder.flair){
+        setCurrentFlairValue(i)
+        break;
+      }
+    }
   }
 
   function onClickBackButton(){
@@ -82,8 +97,6 @@ export default function AddReminder() {
     }
     history.goBack()
   }
-
-  console.log('editing:', isEditing);
 
   return (
  
@@ -105,11 +118,11 @@ export default function AddReminder() {
         <div style={{display:'flex', flexDirection: 'column',
          padding: 10, height :'100%'}}>
           <div style={{marginBottom: 10}}>
-            <IonTextarea ref={memoRef} color='black' placeholder='Add Memo'
-            style={{backgroundColor: '#171717', color: 'white',
+            <IonTextarea value={currentMemoText} ref={memoRef} color='black' 
+            placeholder='Add Memo' style={{backgroundColor: '#171717', color: 'white',
             fontFamily: 'SignikaNegative', fontSize: 20,
             borderRadius: '10px', height: 150, padding: '0px 15px 0px 15px'
-            }}/>
+            }} onIonChange={onMemoTextareaChange}/>
           </div>
           <div style={{backgroundColor: '#171717', borderRadius: 10,
           marginBottom: 10}}>
@@ -127,14 +140,15 @@ export default function AddReminder() {
           flexGrow: 1, flex: 1, flexShrink :1, fontSize: 20}}>
             Add a Flair
             <div>
-              <IonRadioGroup allowEmptySelection={true} ref={flairRef}
+              <IonRadioGroup value={currentFlairValue} allowEmptySelection={true} 
+              ref={flairRef}
               style={{display: 'flex', flexDirection: 'column'}}>
-                <ReminderFlairRadio label='Homework'/>
-                <ReminderFlairRadio label='Exam'/>
-                <ReminderFlairRadio label='Work'/>
-                <ReminderFlairRadio label='Appointment'/>
-                <ReminderFlairRadio label='Chore'/>
-                <ReminderFlairRadio label='Miscellaneous'/>
+                {
+                  flairLabels.map((flairLabel:string, index:number)=>{
+                    return <ReminderFlairRadio key={index} label={flairLabel}
+                    value={index}/>
+                  })
+                }
               </IonRadioGroup>
             </div>
           </div>
