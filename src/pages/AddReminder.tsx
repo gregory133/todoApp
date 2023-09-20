@@ -6,7 +6,7 @@ import './AddReminder.css'
 import ReminderFlairRadio from '../components/ReminderFlairRadio'
 import Reminder, { Flair } from '../classes/Reminder'
 import { useReminderStore } from '../stores/reminderStore'
-import { addReminderToDB } from '../database/remindersDBInterface'
+import { addReminderToDB, updateReminderInDB } from '../database/remindersDBInterface'
 import { useDbStore } from '../stores/dbStore'
 
 export default function AddReminder() {
@@ -14,7 +14,9 @@ export default function AddReminder() {
   const [isEditing, setIsEditing]=useState(false)
 
   const addReminder=useReminderStore(state=>state.addReminder)
+  const editReminder=useReminderStore(state=>state.editReminder)
   const currentReminder=useReminderStore(state=>state.currentReminder)
+  const reminders=useReminderStore(state=>state.reminders)
 
   const db=useDbStore(state=>state.db)
 
@@ -29,11 +31,12 @@ export default function AddReminder() {
   const [currentMemoText, setCurrentMemoText]=useState<string>('')
   const [currentFlairValue, setCurrentFlairValue]=useState(-1)
 
-  const flairLabels=['Homework', 'Exam', 'Work', 'Appointment', 'Chore', 'Miscellaneous']
+  const flairLabels=['Homework', 'Exam', 'Work', 'Appointment', 'Chore', 
+  'Miscellaneous']
 
   function constructRemainder(){
     let memo=memoRef.current?.value?.toString()
-    if (memo ===undefined){
+    if (memo === undefined){
       memo=''
     }
     let flair:Flair='None'
@@ -49,7 +52,7 @@ export default function AddReminder() {
     }
     
     const reminderConstructed=new Reminder(memo, datetime, flair)
-    console.log(JSON.stringify(reminderConstructed));
+    // console.log(JSON.stringify(reminderConstructed));
     return reminderConstructed
 
   }
@@ -87,13 +90,16 @@ export default function AddReminder() {
   }
 
   function onClickBackButton(){
+
+    let reminder=constructRemainder()
     if (isEditing){
-      console.log('is editing');
+      reminder.dateCreated=currentReminder?.dateCreated!
+      editReminder(currentReminder?.dateCreated!, reminder)
+      updateReminderInDB(reminder.dateCreated, db!, reminder)
     }
     else{
-      let remainder=constructRemainder()
-      addReminder(remainder)
-      addReminderToDB(remainder, db!)
+      addReminder(reminder)
+      addReminderToDB(reminder, db!)
     }
     history.goBack()
   }

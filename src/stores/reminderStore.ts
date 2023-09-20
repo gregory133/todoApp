@@ -19,6 +19,7 @@ export const useReminderStore = create<ReminderState>()(set => (
       return {currentReminder: newCurrentReminder}
     }),
     addReminder: (newReminder: Reminder) => set(state => {
+      // console.log('called addreminder');
       const newDict = new Dictionary<number, Reminder>()
       state.reminders.forEach((key: number, value: Reminder) => {
         newDict.setValue(key, value)
@@ -41,10 +42,11 @@ export const useReminderStore = create<ReminderState>()(set => (
       state.reminders.forEach((key:number, value:Reminder)=>{
         newDict.setValue(key, value)
       })
-
+      
       newDict.remove(dateCreated)
       newDict.setValue(dateCreated, newReminder)
 
+      console.log(JSON.stringify(newDict));
       return {reminders: newDict}
 
     })

@@ -21,7 +21,8 @@ export async function deleteNoteFromDB(dateCreated:number, db:SQLiteObject) {
   executeSql(`delete from Notes where dateCreated = ${dateCreated};`, db)
 }
 
-export async function updateNoteInDB(dateCreated:number, newNoteContents:Note, db:SQLiteObject){
+export async function updateNoteInDB(dateCreated:number, newNoteContents:Note, 
+  db:SQLiteObject){
   executeSql(`update Notes set title = '${newNoteContents.title}', 
   content = '${newNoteContents.content}' where dateCreated = ${dateCreated}`, db)
 }

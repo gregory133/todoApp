@@ -18,6 +18,13 @@ export async function addReminderToDB(reminder:Reminder, db:SQLiteObject) {
   )`, db)
 }
 
+export async function updateReminderInDB(dateCreated:number, db:SQLiteObject,
+  newReminder: Reminder) {
+    executeSql(`update Reminder set memo = '${newReminder.memo}', 
+    flair = '${newReminder.flair}', dateTime = '${newReminder.dateTime}' where 
+    dateCreated = ${dateCreated}`, db)
+}
+
 export async function deleteReminderFromDB(dateCreated:number, db:SQLiteObject) {
   executeSql(`delete from Reminder where dateCreated = ${dateCreated};`, db)
 }
