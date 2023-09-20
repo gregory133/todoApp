@@ -24,6 +24,7 @@ export default function AddReminder() {
   const flairRef=useRef<HTMLIonRadioGroupElement>(null)
   const ionDatetimeRef=useRef<HTMLIonDatetimeElement>(null)
   const memoRef=useRef<HTMLIonTextareaElement>(null)
+
   const history=useHistory()
 
   const [currentDatetime, setCurrentDatetime]=useState<string>(
@@ -70,7 +71,6 @@ export default function AddReminder() {
       setReminderValues(currentReminder)
       setIsEditing(true)
     }
-    // console.log(JSON.stringify(currentReminder));
   }, [])
 
   useEffect(()=>{
@@ -89,8 +89,7 @@ export default function AddReminder() {
     }
   }
 
-  function onClickBackButton(){
-
+  function addOrUpdateReminder(){
     let reminder=constructRemainder()
     if (isEditing){
       reminder.dateCreated=currentReminder?.dateCreated!
@@ -101,8 +100,13 @@ export default function AddReminder() {
       addReminder(reminder)
       addReminderToDB(reminder, db!)
     }
+  }
+
+  function onClickBackButton(){
+    addOrUpdateReminder()
     history.goBack()
   }
+  
 
   return (
  
