@@ -6,7 +6,7 @@ export async function executeSql(sql:string, db:SQLiteObject){
     queryResult = await db.executeSql(sql, [])
   }
   catch(err){
-    console.log(JSON.stringify(err));
+    console.log('no db support');
   }
   
   return queryResult

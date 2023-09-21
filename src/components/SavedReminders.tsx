@@ -18,7 +18,7 @@ export default function SavedReminders() {
   function loadRemindersFromDB(){
     getAllReminders(db!)
     .then((storedReminders:Reminder[])=>{
-      console.log(storedReminders);
+      // console.log(storedReminders);
       storedReminders.forEach((storedReminder:Reminder)=>{
         addReminder(storedReminder)
       })

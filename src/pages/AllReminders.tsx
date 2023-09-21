@@ -9,6 +9,7 @@ import { useReminderStore } from '../stores/reminderStore'
 import { useDbStore } from '../stores/dbStore'
 import Reminder from '../classes/Reminder'
 import flairColorDict  from '../classes/FlairColors'
+import { LocalNotifications } from '@capacitor/local-notifications'
 
 export default function AllReminders() {
 
@@ -22,6 +23,40 @@ export default function AllReminders() {
     setCurrentReminder(null)
     history.push('/addReminder')
   }
+  
+  useEffect(()=>{
+
+  }, [reminders])
+
+  useEffect(()=>{
+    console.log('loading notifications');
+    LocalNotifications.schedule({
+      notifications:[
+        {
+          title: 'test',
+          body: 'notification body',
+          id: 1,
+          schedule: { at: new Date(Date.now()+3000)}
+        }
+      ]
+    })
+  }, [])
+
+  useEffect(()=>{
+    const shadow=document.getElementsByTagName('ion-datetime')[0].shadowRoot
+    
+    // setTimeout(()=>{
+    //   const elements : HTMLCollection = shadow?.children.item(0)
+    //   ?.getElementsByClassName('calendar-day')!
+
+    //   for (let i=0; i<elements.length; i++){
+    //     const item=elements.item(i) as HTMLElement
+    //     console.log(item);
+    //     item.style.border='1px solid'
+    //     item.style.borderColor='red'
+    //   }
+    // }, 1000)
+  }, [])
 
   return (
     <>
